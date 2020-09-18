@@ -1,4 +1,4 @@
-# Ping CRM
+# Ping CRM [Work In Progress !]
 
 A demo application to illustrate how Inertia.js works with:
 - Server-side adapter: [inertia-masonite](https://github.com/girardinsamuel/inertia-masonite.git) for [MasoniteFramework](https://github.com/MasoniteFramework/masonite)
