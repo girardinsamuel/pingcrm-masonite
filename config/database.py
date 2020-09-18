@@ -23,7 +23,7 @@ Supported Drivers: 'sqlite', 'mysql', 'postgres'
 """
 
 DATABASES = {
-    'default': env('DB_CONNECTION'),
+    'default': 'postgres',
     'sqlite': {
         'driver': 'sqlite',
         'database': env('DB_DATABASE'),
