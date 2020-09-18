@@ -1,4 +1,10 @@
 {
+    "name": "pingcrm",
+    "description": "Ping CRM demo app",
+    "version": "1.0.0",
+    "engines": {
+      "node": "12.x"
+    },
     "private": true,
     "scripts": {
         "dev": "npm run development",
