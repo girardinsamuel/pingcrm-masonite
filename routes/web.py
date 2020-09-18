@@ -1,7 +1,9 @@
 """Web Routes."""
-
-from masonite.routes import Get, Post
+from masonite.routes import Get
+from masonite.auth import Auth
 
 ROUTES = [
-    Get('/', 'WelcomeController@show').name('welcome'),
+    Get('/', 'DashboardController@show').name('dashboard'),
 ]
+
+ROUTES += Auth.routes()
