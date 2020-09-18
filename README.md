@@ -4,6 +4,8 @@ A demo application to illustrate how Inertia.js works with:
 - Server-side adapter: [inertia-masonite](https://github.com/girardinsamuel/inertia-masonite.git) for [MasoniteFramework](https://github.com/MasoniteFramework/masonite)
 - Client-side adapter: [inertia.js]() for [Vue.js](https://github.com/vuejs/vue)
 
+[https://pingcrm-masonite.herokuapp.com/](https://pingcrm-masonite.herokuapp.com/)
+
 > ![](https://raw.githubusercontent.com/inertiajs/pingcrm/master/screenshot.png)
 
 Disclaimer : the demo is based on the [official Inertia.js demo](https://github.com/inertiajs/pingcrm.git) (for the Vue part)
