@@ -3,6 +3,7 @@
 from masonite.request import Request
 from masonite.view import View
 from masonite.controllers import Controller
+from masonite.inertia import InertiaResponse
 
 
 class DashboardController(Controller):
@@ -16,5 +17,5 @@ class DashboardController(Controller):
         """
         self.request = request
 
-    def show(self, view: View):
-        return view.render('welcome')
+    def index(self, view: InertiaResponse):
+        return view.render('Dashboard/Index')

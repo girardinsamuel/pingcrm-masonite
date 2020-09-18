@@ -4,6 +4,7 @@ from masonite.auth import Auth
 from masonite.request import Request
 from masonite.validation import Validator
 from masonite.view import View
+from masonite.inertia import InertiaResponse
 
 
 class LoginController:
@@ -12,6 +13,9 @@ class LoginController:
     def __init__(self):
         """LoginController Constructor."""
         pass
+
+    def show_login_form(self, view: InertiaResponse):
+        return view.render('Auth/Login')
 
     def show(self, request: Request, view: View):
         """Show the login page.

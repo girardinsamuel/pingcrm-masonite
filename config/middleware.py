@@ -7,6 +7,7 @@ from app.http.middleware.AuthenticationMiddleware import \
 from app.http.middleware.CsrfMiddleware import CsrfMiddleware
 from app.http.middleware.LoadUserMiddleware import LoadUserMiddleware
 from app.http.middleware.VerifyEmailMiddleware import VerifyEmailMiddleware
+from masonite.inertia import InertiaMiddleware
 
 """HTTP Middleware
 HTTP middleware is middleware that will be ran on every request. Middleware
@@ -19,6 +20,7 @@ HTTP_MIDDLEWARE = [
     CsrfMiddleware,
     ResponseMiddleware,
     MaintenanceModeMiddleware,
+    InertiaMiddleware
 ]
 
 """Route Middleware
