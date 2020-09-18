@@ -3,6 +3,7 @@ const cssImport = require('postcss-import')
 const cssNesting = require('postcss-nesting')
 const tailwindcss = require('tailwindcss')
 const path = require('path')
+// const purgecss = require('purgecss')
 
 /*
  |--------------------------------------------------------------------------
@@ -22,13 +23,14 @@ mix.js('resources/js/app.js', 'storage/public/js')
       cssImport(),
       cssNesting(),
       tailwindcss('tailwind.config.js'),
-      ...mix.inProduction() ? [
-        purgecss({
-          content: ['./resources/views/**/*.html', './resources/js/**/*.vue'],
-          defaultExtractor: content => content.match(/[\w-/:.]+(?<!:)/g) || [],
-          whitelistPatternsChildren: [/nprogress/],
-        }),
-      ] : [],
+      [],
+      // ...mix.inProduction() ? [
+      //   purgecss({
+      //     content: ['./resources/views/**/*.html', './resources/js/**/*.vue'],
+      //     defaultExtractor: content => content.match(/[\w-/:.]+(?<!:)/g) || [],
+      //     whitelistPatternsChildren: [/nprogress/],
+      //   }),
+      // ] : [],
     ],
   })
   .webpackConfig({
