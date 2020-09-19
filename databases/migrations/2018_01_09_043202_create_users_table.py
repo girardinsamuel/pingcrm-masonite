@@ -7,12 +7,17 @@ class CreateUsersTable(Migration):
         """Run the migrations."""
         with self.schema.create('users') as table:
             table.increments('id')
-            table.string('name')
-            table.string('email').unique()
-            table.string('password')
+            table.integer('account_id').index()
+            table.string('first_name', 25)
+            table.string('last_name', 25)
+            table.string('email', 50).unique()
+            table.string('password').nullable()
+            table.boolean('owner').default(False)
+            table.string('photo_path', 100).nullable()
             table.string('remember_token').nullable()
             table.timestamp('verified_at').nullable()
             table.timestamps()
+            table.soft_deletes()
 
     def down(self):
         """Revert the migrations."""

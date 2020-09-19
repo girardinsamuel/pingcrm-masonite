@@ -19,4 +19,4 @@ class UserTableSeeder(Seeder):
         """
         Run the database seeds.
         """
-        factory(User, 50).create()
+        factory(User, 5).create()

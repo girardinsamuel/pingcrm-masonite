@@ -12,6 +12,7 @@ from masonite.logging.providers import LoggingProvider
 from masonite.validation.providers import ValidationProvider
 from masonite.inertia import InertiaProvider
 
+from app.providers.MyAppProvider import MyAppProvider
 """Providers List
 Providers are a simple way to remove or add functionality for Masonite
 The providers in this list are either ran on server start or when a
@@ -45,4 +46,5 @@ PROVIDERS = [
     InertiaProvider,
 
     # Application Providers
+    MyAppProvider
 ]
