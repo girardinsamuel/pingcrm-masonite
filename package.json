@@ -19,7 +19,7 @@
     "@inertiajs/inertia": "^0.2.1",
     "@inertiajs/inertia-vue": "^0.2.0",
     "popper.js": "^1.16.1",
-    "purgecss": "^2.3.0",
+    "postcss-loader": "^4.0.2",
     "vue": "^2.6.12"
   },
   "devDependencies": {
@@ -32,7 +32,9 @@
     "postcss-import": "^12.0.1",
     "postcss-nesting": "^7.0.1",
     "resolve-url-loader": "^2.3.2",
-    "tailwindcss": "^1.8.7",
+    "sass": "^1.26.11",
+    "sass-loader": "^8.0.2",
+    "tailwindcss": "^1.2.0-canary.5",
     "vue-meta": "^2.3.1",
     "vue-template-compiler": "^2.6.11"
   }

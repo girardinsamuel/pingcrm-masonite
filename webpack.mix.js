@@ -17,22 +17,25 @@ const path = require('path')
  */
 
 mix.js('resources/js/app.js', 'storage/public/js')
-  .postCss('resources/css/app.css', 'storage/public/css')
+   .sass('resources/css/app.scss', 'storage/public/css')
   .options({
-    postCss: [
-      cssImport(),
-      cssNesting(),
-      tailwindcss('tailwind.config.js'),
-      [],
-      // ...mix.inProduction() ? [
-      //   purgecss({
-      //     content: ['./resources/views/**/*.html', './resources/js/**/*.vue'],
-      //     defaultExtractor: content => content.match(/[\w-/:.]+(?<!:)/g) || [],
-      //     whitelistPatternsChildren: [/nprogress/],
-      //   }),
-      // ] : [],
-    ],
+    processCssUrls: false,
+    postCss: [ tailwindcss('tailwind.config.js') ],
   })
+  // .postCss('resources/css/app.css', 'storage/public/css',
+  //   [
+  //     cssImport(),
+  //     cssNesting(),
+  //     tailwindcss('tailwind.config.js'),
+  //     [],
+  //     // ...mix.inProduction() ? [
+  //     //   purgecss({
+  //     //     content: ['./resources/views/**/*.html', './resources/js/**/*.vue'],
+  //     //     defaultExtractor: content => content.match(/[\w-/:.]+(?<!:)/g) || [],
+  //     //     whitelistPatternsChildren: [/nprogress/],
+  //     //   }),
+  //     // ] : [],
+  //   ])
   .webpackConfig({
     resolve: {
       alias: {

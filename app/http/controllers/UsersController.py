@@ -4,6 +4,8 @@ from masonite.request import Request
 from masonite.view import View
 from masonite.controllers import Controller
 from masonite.inertia import InertiaResponse
+from masonite.validation import Validator
+from masonite import Upload
 
 from app.User import User
 
@@ -20,10 +22,12 @@ class UsersController(Controller):
         self.request = request
 
     def index(self, view: InertiaResponse):
-
+        users = self.request.user().account.users().order_by_name().filter(
+            self.request.only('search', 'role', 'trashed')
+        ).get()
         return view.render('Users/Index', {
-            'filters': [],
-            'users': self.request.user().account.users.transform(lambda user: {
+            'filters': self.request.all(internal_variables=False),
+            'users': users.transform(lambda user: {
                 'id': user.id,
                 'email': user.email,
                 'name': user.last_name + ' ' + user.first_name,
@@ -45,58 +49,103 @@ class UsersController(Controller):
                 'last_name': user.last_name,
                 'email': user.email,
                 'owner': user.owner,
-                'photo': '#', # user.photoUrl(['w' => 60, 'h' => 60, 'fit' => 'crop']),
+                'photo': '#', # TODO: user.photoUrl(['w' => 60, 'h' => 60, 'fit' => 'crop']),
                 'deleted_at': user.deleted_at,
             },
         })
     
-    def update(self, view: InertiaResponse):
+    def store(self, view: InertiaResponse, validate: Validator, upload: Upload):
+        errors = self.request.validate(
+            validate.required(['email', 'first_name', 'last_name', 'owner']),
+            validate.truthy('owner'),
+            validate.length(['first_name', 'last_name', 'email'], max=50),
+            validate.email('email'),
+            # validate.when(
+            #     validate.exists('photo')
+            # ).then(
+            #     validate.image('photo')
+            # ), TODO: fix the error, file validators do not work with FieldStorage for now ...
+            validate.when(
+                validate.exists('password')
+            ).then(
+                validate.strong('password', length=8, special=1)
+            )
+        )
+        import pdb 
+        pdb.set_trace()
+
+        if errors:
+            # return self.request.back().with_errors(errors).with_input()
+            # return view.render('Users/Create').with_errors(errors).with_input()
+            return self.request.redirect('users/create').with_errors(errors).with_input()
+
+        photo_path = None
+        if self.request.input('photo'):
+            # save file
+            photo_path = upload.driver('disk').store(self.request.input('file_upload'), location='disk.profiles')
+
+        self.request.user().account.users().create(
+            first_name=self.request.input('first_name'),
+            last_name=self.request.input('last_name'),
+            email=self.request.input('email'),
+            owner=self.request.input('owner'),
+            password=self.request.input('password'),
+            photo_path=photo_path
+        )
+        
+        self.request.session.flash('success', 'User created.')
+        return self.request.redirect('/users')
+
+    def update(self, view: InertiaResponse, validate: Validator, upload: Upload):
         user = User.find(self.request.param("user"))
         if user.is_demo_user:
             self.request.session.flash('error', 'Updating the demo user is not allowed.')
             return self.request.redirect(f"/users/{user.id}/edit") #.with_errors("Updating the demo user is not allowed.")
 
-        # check demo
-        # errors = request.validate(
-        #     validate.required(["name", "email", "password"]),
-        #     validate.email("email"),
-        #     validate.strong(
-        #         "password",
-        #         length=8,
-        #         special=1,
-        #         uppercase=1,
-        #         # breach=True checks if the password has been breached before.
-        #         # Requires 'pip install pwnedapi'
-        #         breach=False,
-        #     ),
-        # )
+        errors = self.request.validate(
+            validate.required(['first_name', 'last_name', 'email', 'owner']),
+            validate.length(['first_name', 'last_name', 'email'], max=50),
+            validate.email('email'),
+            validate.when(
+                validate.exists('password')
+            ).then(
+                validate.strong('password', length=8, special=1)
+            )
+            # TODO: add unique
+        )
+
+        if errors:
+            return self.request.redirect(f"users/{user.id}").with_errors(errors).with_input()
+
+        # update user
+        user.first_name = self.request.input('first_name')
+        user.last_name = self.request.input('last_name')
+        user.email = self.request.input('email')
+        user.owner = self.request.input('owner')
+
+        if self.request.input('password'):
+            pass
+
+        photo_path = None
+        if self.request.input('photo'):
+            photo_path = upload.driver('disk').store(self.request.input('file_upload'),
+                                                     location='disk.profiles')
+            user.photo_path = photo_path
+
+        user.save()
 
         self.request.session.flash('success', 'User updated.')
         return self.request.back()
 
-    #     if (App::environment('demo') && $user->isDemoUser()) {
-    #         return Redirect::back()->with('error', 'Updating the demo user is not allowed.');
-    #     }
+    def destroy(self, view: InertiaResponse):
+        user = User.find(self.request.param('user'))
 
-    #     Request::validate([
-    #         'first_name' => ['required', 'max:50'],
-    #         'last_name' => ['required', 'max:50'],
-    #         'email' => ['required', 'max:50', 'email', Rule::unique('users')->ignore($user->id)],
-    #         'password' => ['nullable'],
-    #         'owner' => ['required', 'boolean'],
-    #         'photo' => ['nullable', 'image'],
-    #     ]);
+        if user.is_demo_user:
+            self.request.session.flash('error', 'Deleting the demo user is not allowed.')
+            self.request.redirect(f"/users/{user.id}")
 
-    #     $user->update(Request::only('first_name', 'last_name', 'email', 'owner'));
+        user.delete()
 
-    #     if (Request::file('photo')) {
-    #         $user->update(['photo_path' => Request::file('photo')->store('users')]);
-    #     }
+        self.request.session.flash('success', 'User deleted.')
+        return self.request.back()
 
-    #     if (Request::get('password')) {
-    #         $user->update(['password' => Request::get('password')]);
-    #     }
-
-        
-    #     return Redirect::back()->with('success', 'User updated.');
-    # }

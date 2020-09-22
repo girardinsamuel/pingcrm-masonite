@@ -1,5 +1,5 @@
 """Web Routes."""
-from masonite.routes import Get, Post
+from masonite.routes import Get, Post, Delete
 # from masonite.auth import Auth
 
 ROUTES = [
@@ -13,8 +13,12 @@ ROUTES = [
     # Users
     Get('/users/@user/edit', 'UsersController@edit').name('users.edit').middleware('auth'),
     Get('/users/create', 'UsersController@create').name('users.create').middleware('auth'),
+    Post('/users', 'UsersController@store').name('users.store').middleware('auth'),
     Post('/users/@user', "UsersController@update").name('users.update').middleware('auth'),
-    Get('/users', "UsersController@index").name('users').middleware('auth')
+    Get('/users', "UsersController@index").name('users').middleware('auth'),
+    Delete('/users/@user', "UsersController@destroy").name('users.destroy').middleware('auth'),
+
+
     # Get("/register", "auth.RegisterController@show").name("register"),
     # Post("/register", "auth.RegisterController@store"),
 

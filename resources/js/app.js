@@ -6,18 +6,30 @@ import { InertiaApp } from "@inertiajs/inertia-vue";
 Vue.config.productionTip = false;
 Vue.mixin({
   methods: {
+    // TODO: implements a package as Ziggy to use with Masonite maybe !!
     route(routeName, param = null) {
       let routeString = this.$page.routes[routeName];
       if (param) {
-        const startIndex = routeString.indexOf("@");
-        const endIndex = routeString.indexOf("/", startIndex);
-        if (endIndex !== -1) {
-          routeString =
-            routeString.substr(0, startIndex) +
-            param +
-            routeString.substr(endIndex);
+        if (typeof param == "object") {
+          const queryString = Object.keys(param)
+            .map((key) => {
+              return (
+                encodeURIComponent(key) + "=" + encodeURIComponent(param[key])
+              );
+            })
+            .join("&");
+          routeString += "/?" + queryString;
         } else {
-          routeString = routeString.substr(0, startIndex) + param + "/";
+          const startIndex = routeString.indexOf("@");
+          const endIndex = routeString.indexOf("/", startIndex);
+          if (endIndex !== -1) {
+            routeString =
+              routeString.substr(0, startIndex) +
+              param +
+              routeString.substr(endIndex);
+          } else {
+            routeString = routeString.substr(0, startIndex) + param + "/";
+          }
         }
       }
       return routeString;

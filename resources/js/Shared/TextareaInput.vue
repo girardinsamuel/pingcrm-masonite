@@ -1,8 +1,16 @@
 <template>
   <div>
     <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-    <textarea :id="id" ref="input" v-bind="$attrs" class="form-textarea" :class="{ error: error }" :value="value" @input="$emit('input', $event.target.value)" />
-    <div v-if="error" class="form-error">{{ error }}</div>
+    <textarea
+      :id="id"
+      ref="input"
+      v-bind="$attrs"
+      class="form-textarea"
+      :class="{ error: errors.length }"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
+    />
+    <div v-if="errors" class="form-error">{{ errors[0] }}</div>
   </div>
 </template>
 
@@ -13,20 +21,23 @@ export default {
     id: {
       type: String,
       default() {
-        return `textarea-input-${this._uid}`
+        return `textarea-input-${this._uid}`;
       },
     },
     value: String,
     label: String,
-    error: String,
+    errors: {
+      type: Array,
+      default: () => [],
+    },
   },
   methods: {
     focus() {
-      this.$refs.input.focus()
+      this.$refs.input.focus();
     },
     select() {
-      this.$refs.input.select()
+      this.$refs.input.select();
     },
   },
-}
+};
 </script>
