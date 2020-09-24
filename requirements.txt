@@ -5,3 +5,4 @@ git+https://github.com/girardinsamuel/inertia-masonite
 # deployment
 gunicorn==20.0.4
 psycopg2-binary==2.8.6
+git+https://github.com/girardinsamuel/masonite-js-routes

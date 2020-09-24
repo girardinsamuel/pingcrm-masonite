@@ -41,6 +41,10 @@ class UsersController(Controller):
         return view.render('Users/Create')
 
     def edit(self, view: InertiaResponse):
+        def lazy_prop():
+            import pdb
+            pdb.set_trace()
+            return "6"
         user = User.find(self.request.param("user"))
         return view.render('Users/Edit', {
             'user': {
@@ -52,6 +56,7 @@ class UsersController(Controller):
                 'photo': '#', # TODO: user.photoUrl(['w' => 60, 'h' => 60, 'fit' => 'crop']),
                 'deleted_at': user.deleted_at,
             },
+            'other_one': lazy_prop
         })
     
     def store(self, view: InertiaResponse, validate: Validator, upload: Upload):
@@ -147,5 +152,5 @@ class UsersController(Controller):
         user.delete()
 
         self.request.session.flash('success', 'User deleted.')
-        return self.request.back()
-
+        return self.request.redirect_to('users')
+        # OR return self.request.back()

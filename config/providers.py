@@ -11,6 +11,7 @@ from masonite.validation.providers.ValidationProvider import ValidationProvider
 from masonite.logging.providers import LoggingProvider
 from masonite.validation.providers import ValidationProvider
 from masonite.inertia import InertiaProvider
+from masonite.js_routes import JsRoutesProvider
 
 from app.providers.MyAppProvider import MyAppProvider
 """Providers List
@@ -43,6 +44,7 @@ PROVIDERS = [
     # Third Party Providers
     LoggingProvider,
     ValidationProvider,
+    JsRoutesProvider,
     InertiaProvider,
 
     # Application Providers

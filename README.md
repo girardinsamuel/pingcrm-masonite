@@ -10,6 +10,8 @@ A demo application to illustrate how Inertia.js works with:
 
 Disclaimer : the demo is based on the [official Inertia.js demo](https://github.com/inertiajs/pingcrm.git) (for the Vue part)
 
+This demo is using [masonite-js-routes](https://github.com/girardinsamuel/masonite-js-routes) to publish routes client-side and `ziggy-js` which provides a very handy `route()` helper in Javascript !
+
 ## Installation
 
 Clone the repo locally:

@@ -9,8 +9,10 @@
     <link href="/css/app.css" rel="stylesheet" />
     <title>Ping CRM Masonite/Vue.js</title>
     <script src="/js/app.js" defer></script>
+    {{ routes() }}
   </head>
   <body class="font-sans antialiased leading-none text-gray-700">
+    <!-- {{ inertia() }} not working :( -->
     <div id="app" data-page="{{ page | safe }}"></div>
   </body>
 </html>
