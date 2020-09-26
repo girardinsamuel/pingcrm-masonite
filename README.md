@@ -1,7 +1,8 @@
 # Ping CRM [Work In Progress !]
 
 A demo application to illustrate how Inertia.js works with:
-- Server-side adapter: [inertia-masonite](https://github.com/girardinsamuel/inertia-masonite.git) for [MasoniteFramework](https://github.com/MasoniteFramework/masonite)
+
+- Server-side adapter: [masonite-inertia](https://github.com/girardinsamuel/masonite-inertia.git) for [MasoniteFramework](https://github.com/MasoniteFramework/masonite)
 - Client-side adapter: [inertia.js]() for [Vue.js](https://github.com/vuejs/vue)
 
 [https://pingcrm-masonite.herokuapp.com/](https://pingcrm-masonite.herokuapp.com/)
@@ -83,4 +84,3 @@ You're ready to go! Visit Ping CRM in your browser, and login with:
 ## Running tests
 
 There is no tests yet for this demo of Ping CRM.
-
