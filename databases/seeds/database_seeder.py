@@ -1,11 +1,12 @@
 """Base Database Seeder Module."""
 
-from orator.seeds import Seeder
-from .user_table_seeder import UserTableSeeder
+from masoniteorm.seeds import Seeder
 from masonite.helpers import password
-from app.Account import Account
+
 from app.User import User
-from config.factories import factory
+from app.Account import Account
+from config.factories import Factory
+from .user_table_seeder import UserTableSeeder
 
 
 class DatabaseSeeder(Seeder):
@@ -21,7 +22,8 @@ class DatabaseSeeder(Seeder):
             last_name="Doe",
             password=password('secret'),
             email="johndoe@example.com",
-            owner=True
+            owner=True,
+            photo_path=""
         )
 
-        factory(User, 5).create(account_id=account.id)
+        Factory(User, 5).create({"account_id": account.id})

@@ -1,4 +1,4 @@
-from orator.migrations import Migration
+from masoniteorm.migrations import Migration
 
 
 class CreateOrganizationsTable(Migration):
@@ -20,7 +20,7 @@ class CreateOrganizationsTable(Migration):
             table.string('country', 2).nullable()
             table.string('postal_code', 25).nullable()
             table.timestamps()
-            table.soft_deletes()
+            table.timestamp('deleted_at').nullable()
 
     def down(self):
         """

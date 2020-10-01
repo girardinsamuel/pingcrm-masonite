@@ -58,7 +58,7 @@ class UsersController(Controller):
             },
             'other_one': lazy_prop
         })
-    
+
     def store(self, view: InertiaResponse, validate: Validator, upload: Upload):
         errors = self.request.validate(
             validate.required(['email', 'first_name', 'last_name', 'owner']),
@@ -76,7 +76,7 @@ class UsersController(Controller):
                 validate.strong('password', length=8, special=1)
             )
         )
-        import pdb 
+        import pdb
         pdb.set_trace()
 
         if errors:
@@ -97,7 +97,7 @@ class UsersController(Controller):
             password=self.request.input('password'),
             photo_path=photo_path
         )
-        
+
         self.request.session.flash('success', 'User created.')
         return self.request.redirect('/users')
 

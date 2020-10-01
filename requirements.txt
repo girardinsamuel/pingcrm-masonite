@@ -1,8 +1,9 @@
-masonite>=2.3,<2.4
+git+https://github.com/MasoniteFramework/masonite#3.0 # use version without autoload
 masonite-logging>=1.0,<2.0
 masonite-validation>=3.0,<4.0
-git+https://github.com/girardinsamuel/inertia-masonite
+masonite-inertia==0.2.0
+masonite-js-routes
+pendulum==1.5.1
 # deployment
 gunicorn==20.0.4
 psycopg2-binary==2.8.6
-git+https://github.com/girardinsamuel/masonite-js-routes

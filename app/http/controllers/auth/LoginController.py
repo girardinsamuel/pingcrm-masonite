@@ -15,7 +15,10 @@ class LoginController:
         pass
 
     def show_login_form(self, view: InertiaResponse):
-        return view.render('Auth/Login')
+        import pdb
+
+        pdb.set_trace()
+        return view.render("Auth/Login")
 
     def show(self, request: Request, view: View):
         """Show the login page.
@@ -44,7 +47,8 @@ class LoginController:
             masonite.request.Request -- The Masonite request class.
         """
         errors = request.validate(
-            validate.required(["email", "password"]), validate.email("email"),
+            validate.required(["email", "password"]),
+            validate.email("email"),
         )
 
         if errors:

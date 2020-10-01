@@ -7,10 +7,9 @@ You can run this seeder in order to generate users.
     - You can run the seeder by running: craft seed:run.
 """
 
-from orator.seeds import Seeder
-
+from masoniteorm.seeds import Seeder
 from app.User import User
-from config.factories import factory
+from config.factories import Factory
 
 
 class UserTableSeeder(Seeder):
@@ -19,4 +18,4 @@ class UserTableSeeder(Seeder):
         """
         Run the database seeds.
         """
-        factory(User, 5).create()
+        Factory(User, 5).create()

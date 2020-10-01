@@ -1,4 +1,4 @@
-from orator.migrations import Migration
+from masoniteorm.migrations import Migration
 
 
 class CreateUsersTable(Migration):
@@ -7,7 +7,7 @@ class CreateUsersTable(Migration):
         """Run the migrations."""
         with self.schema.create('users') as table:
             table.increments('id')
-            table.integer('account_id').index()
+            table.integer('account_id')
             table.string('first_name', 25)
             table.string('last_name', 25)
             table.string('email', 50).unique()
@@ -17,7 +17,8 @@ class CreateUsersTable(Migration):
             table.string('remember_token').nullable()
             table.timestamp('verified_at').nullable()
             table.timestamps()
-            table.soft_deletes()
+            table.timestamp('deleted_at').nullable()
+            table.index("account_id")
 
     def down(self):
         """Revert the migrations."""
