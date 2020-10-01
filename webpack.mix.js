@@ -1,9 +1,9 @@
-const mix = require('laravel-mix')
-const cssImport = require('postcss-import')
-const cssNesting = require('postcss-nesting')
-const tailwindcss = require('tailwindcss')
-const path = require('path')
-// const purgecss = require('purgecss')
+const cssImport = require("postcss-import");
+const cssNesting = require("postcss-nesting");
+const mix = require("laravel-mix");
+const path = require("path");
+const purgecss = require("@fullhuman/postcss-purgecss");
+const tailwindcss = require("tailwindcss");
 
 /*
  |--------------------------------------------------------------------------
@@ -16,30 +16,37 @@ const path = require('path')
  |
  */
 
-mix.js('resources/js/app.js', 'storage/public/js')
-   .sass('resources/css/app.scss', 'storage/public/css')
+mix
+  .js("resources/js/app.js", "storage/public/js")
+  .postCss("resources/css/app.css", "storage/public/css/app.css")
   .options({
-    processCssUrls: false,
-    postCss: [ tailwindcss('tailwind.config.js') ],
+    postCss: [
+      cssImport(),
+      cssNesting(),
+      tailwindcss("tailwind.config.js"),
+      ...(mix.inProduction()
+        ? [
+            purgecss({
+              content: [
+                "./resources/templates/**/*.html",
+                "./resources/js/**/*.vue",
+              ],
+              defaultExtractor: (content) =>
+                content.match(/[\w-/:.]+(?<!:)/g) || [],
+              whitelistPatternsChildren: [/nprogress/],
+            }),
+          ]
+        : []),
+    ],
   })
-  // .postCss('resources/css/app.css', 'storage/public/css',
-  //   [
-  //     cssImport(),
-  //     cssNesting(),
-  //     tailwindcss('tailwind.config.js'),
-  //     [],
-  //     // ...mix.inProduction() ? [
-  //     //   purgecss({
-  //     //     content: ['./resources/views/**/*.html', './resources/js/**/*.vue'],
-  //     //     defaultExtractor: content => content.match(/[\w-/:.]+(?<!:)/g) || [],
-  //     //     whitelistPatternsChildren: [/nprogress/],
-  //     //   }),
-  //     // ] : [],
-  //   ])
   .webpackConfig({
+    output: { chunkFilename: "js/[name].js?id=[chunkhash]" },
     resolve: {
       alias: {
-        '@': path.resolve('resources/js'),
+        vue$: "vue/dist/vue.runtime.esm.js",
+        "@": path.resolve("resources/js"),
       },
     },
   })
+  .version()
+  .sourceMaps();
