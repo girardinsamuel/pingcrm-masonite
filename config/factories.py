@@ -3,6 +3,7 @@ import string
 from masoniteorm import Factory
 from masonite.helpers import password
 from app.User import User
+from app.Organization import Organization
 
 
 def get_random_string(length):
@@ -22,5 +23,17 @@ def user_factory(faker):
         'photo_path': ''
     }
 
+def organization_factory(faker):
+    return {
+        'name': faker.company(),
+        'email': faker.email(),
+        'phone': "0656453423",
+        'address': faker.address(),
+        'city': faker.city(),
+        'region': faker.state(),
+        'country': 'US',
+        'postal_code': faker.postcode()
+    }
 
 Factory.register(User, user_factory)
+Factory.register(Organization, organization_factory)

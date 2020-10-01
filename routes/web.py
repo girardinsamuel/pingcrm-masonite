@@ -18,6 +18,10 @@ ROUTES = [
     Get('/users', "UsersController@index").name('users').middleware('auth'),
     Delete('/users/@user', "UsersController@destroy").name('users.destroy').middleware('auth'),
 
+    # Organizations
+    Get('/organizations', "OrganizationsController@index").name('organizations').middleware('auth'),
+    Get('/organizations/create', "OrganizationsController@create").name('organizations.create').middleware('auth'),
+    Get('/organizations/@organization/edit', "OrganizationsController@edit").name('organizations.edit').middleware('auth'),
 
     # Get("/register", "auth.RegisterController@show").name("register"),
     # Post("/register", "auth.RegisterController@store"),

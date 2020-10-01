@@ -15,9 +15,6 @@ class LoginController:
         pass
 
     def show_login_form(self, view: InertiaResponse):
-        import pdb
-
-        pdb.set_trace()
         return view.render("Auth/Login")
 
     def show(self, request: Request, view: View):

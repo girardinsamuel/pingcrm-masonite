@@ -5,8 +5,9 @@ from masonite.helpers import password
 
 from app.User import User
 from app.Account import Account
+from app.Organization import Organization
 from config.factories import Factory
-from .user_table_seeder import UserTableSeeder
+# from .user_table_seeder import UserTableSeeder
 
 
 class DatabaseSeeder(Seeder):
@@ -27,3 +28,5 @@ class DatabaseSeeder(Seeder):
         )
 
         Factory(User, 5).create({"account_id": account.id})
+
+        Factory(Organization, 10).create({"account_id": account.id})

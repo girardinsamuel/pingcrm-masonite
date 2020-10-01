@@ -8,6 +8,7 @@ from masonite.validation import Validator
 from masonite import Upload
 
 from app.User import User
+from app.Account import Account
 
 
 class UsersController(Controller):
@@ -22,6 +23,9 @@ class UsersController(Controller):
         self.request = request
 
     def index(self, view: InertiaResponse):
+        # users = Account.users_of_account(self.request.user().account.id)
+        import pdb
+        pdb.set_trace()
         users = self.request.user().account.users().order_by_name().filter(
             self.request.only('search', 'role', 'trashed')
         ).get()
@@ -42,8 +46,6 @@ class UsersController(Controller):
 
     def edit(self, view: InertiaResponse):
         def lazy_prop():
-            import pdb
-            pdb.set_trace()
             return "6"
         user = User.find(self.request.param("user"))
         return view.render('Users/Edit', {
@@ -76,8 +78,6 @@ class UsersController(Controller):
                 validate.strong('password', length=8, special=1)
             )
         )
-        import pdb
-        pdb.set_trace()
 
         if errors:
             # return self.request.back().with_errors(errors).with_input()

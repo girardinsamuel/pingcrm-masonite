@@ -4,9 +4,6 @@ from masoniteorm.scopes import scope, SoftDeletesMixin
 from masoniteorm.models import Model
 
 
-from app.Account import Account
-
-
 class User(Model, SoftDeletesMixin):
     """User Model."""
 
@@ -22,14 +19,16 @@ class User(Model, SoftDeletesMixin):
     __append__ = ["role", "is_demo_user"]
     __auth__ = "email"
 
-    @belongs_to
+    @belongs_to('account_id', 'id')
     def account(self):
+        from app.Account import Account
         return Account
 
-    def get_role(self):
+    @property
+    def role(self):
         return "owner" if self.owner else "user"
 
-    # @accessor
+    @property
     def is_demo_user(self):
         return self.email == "johndoe@example.com"
 

@@ -8,23 +8,20 @@ class MyAppProvider(ServiceProvider):
     wsgi = False
 
     def boot(self, auth: Auth):
-        # update default view to use with Inertia
-        # inertia.set_root_view("spa_view")
         # add shared data
-        # auth = self.app.make('Auth')
-
         def get_auth():
-            if auth.user():
+            user = auth.user()
+            if user:
                 return {
                     'user': {
-                        'id': auth.user().id,
-                        'first_name': auth.user().first_name,
-                        'last_name': auth.user().last_name,
-                        'email': auth.user().email,
-                        'role': auth.user().role,
+                        'id': user.id,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'email': user.email,
+                        'role': user.role,
                         'account': {
-                            'id': auth.user().account.id,
-                            'name': auth.user().account.name
+                            'id': user.account.id,
+                            'name': user.account.name
                         }
                     }
                 }
