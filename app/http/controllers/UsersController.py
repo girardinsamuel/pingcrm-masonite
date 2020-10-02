@@ -24,8 +24,6 @@ class UsersController(Controller):
 
     def index(self, view: InertiaResponse):
         # users = Account.users_of_account(self.request.user().account.id)
-        import pdb
-        pdb.set_trace()
         users = self.request.user().account.users().order_by_name().filter(
             self.request.only('search', 'role', 'trashed')
         ).get()

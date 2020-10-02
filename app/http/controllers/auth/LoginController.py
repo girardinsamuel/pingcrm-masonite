@@ -17,21 +17,6 @@ class LoginController:
     def show_login_form(self, view: InertiaResponse):
         return view.render("Auth/Login")
 
-    def show(self, request: Request, view: View):
-        """Show the login page.
-
-        Arguments:
-            request {masonite.request.Request} -- The Masonite request class.
-            view {masonite.view.View} -- The Masonite view class.
-
-        Returns:
-            masonite.view.View -- Returns the Masonite view class.
-        """
-        if request.user():
-            return request.redirect("/home")
-
-        return view.render("auth/login")
-
     def store(self, request: Request, auth: Auth, validate: Validator):
         """Login the user.
 

@@ -1,14 +1,15 @@
 """Web Routes."""
 from masonite.routes import Get, Post, Delete, Put
-# from masonite.auth import Auth
 
 ROUTES = [
-    Get('/', 'DashboardController@index').name('dashboard').middleware('auth'),
-
+    # Auth
+    # TODO: implement guest middleware in Masonite
     Get('/login', 'auth.LoginController@show_login_form').name('login'), #.middleware('guest')
     Post("/login", "auth.LoginController@store").name('login.attempt'),
-
     Post("/logout", "auth.LoginController@logout").name("logout"),
+
+    # Dashboard
+    Get('/', 'DashboardController@index').name('dashboard').middleware('auth'),
 
     # Users
     Get('/users/@user/edit', 'UsersController@edit').name('users.edit').middleware('auth'),
@@ -26,8 +27,12 @@ ROUTES = [
     Delete('/organizations/@organization', "OrganizationsController@destroy").name('organizations.destroy').middleware('auth'),
     Post('/organizations/', "OrganizationsController@store").name('organizations.store').middleware('auth'),
 
+    # Contacts
+    Get('/contacts', "ContactsController@index").name('contacts').middleware('auth'),
+
+    # Reports
+    Get('/reports', "ReportsController@index").name('reports').middleware('auth'),
+
     # Errors
     Get('/500', "ErrorController@show").name('500')
 ]
-
-# ROUTES += Auth.routes()

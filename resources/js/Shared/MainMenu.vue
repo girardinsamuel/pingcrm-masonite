@@ -70,8 +70,10 @@
       </inertia-link>
     </div>
     <div class="mb-4">
-      <inertia-link class="flex items-center py-3 group" href="#">
-        <!-- <inertia-link class="flex items-center py-3 group" :href="route('reports')"> -->
+      <inertia-link
+        class="flex items-center py-3 group"
+        :href="route('reports')"
+      >
         <icon
           name="printer"
           class="w-4 h-4 mr-2"
