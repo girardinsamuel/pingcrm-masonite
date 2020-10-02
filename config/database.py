@@ -35,7 +35,7 @@ DATABASES = {
     },
     "postgres": {
         "driver": "postgres",
-        "host": "localhost",
+        "host": env("DB_HOST"),
         "user": env("DB_USERNAME"),
         "password": env("DB_PASSWORD"),
         "database": env("DB_DATABASE"),
