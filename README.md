@@ -9,6 +9,8 @@ A demo application to illustrate how Inertia.js works with:
 
 > ![](screenshot.png)
 
+![](demo.mov)
+
 Disclaimer :
 
 - the demo is based on the [official Inertia.js demo](https://github.com/inertiajs/pingcrm.git) (for the Vue part)
