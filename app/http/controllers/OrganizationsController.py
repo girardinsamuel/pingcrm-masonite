@@ -57,7 +57,6 @@ class OrganizationsController(Controller):
     def store(self, view: InertiaResponse, validate: Validator):
         # TODO: add nullable rule
         # TODO: add postal_code rule
-        import pdb ; pdb.set_trace()
         errors = self.request.validate(
             validate.required(['name']),
             validate.length(['email', 'phone', 'city', 'region'], max=50),

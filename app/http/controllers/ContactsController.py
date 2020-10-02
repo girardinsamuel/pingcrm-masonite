@@ -24,8 +24,33 @@ class ContactsController(Controller):
         # contacts = self.request.user().account.contacts().order_by_name().filter(
         #     self.request.only('search', 'role', 'trashed')
         # ).get()
-        contacts = self.request.user().account.contacts.get()
+        contacts = self.request.user().account.contacts
         return view.render('Contacts/Index', {
             'filters': self.request.all(internal_variables=False),
             'users': contacts.serialize()
         })
+
+    def create(self, view: InertiaResponse):
+        return view.render('Contacts/Create')
+
+    def edit(self, view: InertiaResponse):
+        contact = Contact.find(self.request.param('contact'))
+        # TODO: not working yet
+        # contact = contact.with_('organizations').get().serialize()
+        return view.render("Contacts/Edit", {
+            "contact": contact.serialize(),
+            "organizations": []
+        })
+
+    def store(self, view: InertiaResponse):
+        # TODO: implement
+        self.request.session.flash('success', 'Contact created.')
+        return view.redirect_to('contacts')
+
+    def destroy(self, view: InertiaResponse):
+        # TODO: can't do that yet
+        # contact = Contact.find(self.request.param('contact'))
+        # contact.delete()
+        Contact.where("id", self.request.param('contact')).delete()
+        self.request.session.flash('success', 'Contact deleted.')
+        return self.request.redirect_to('contacts')

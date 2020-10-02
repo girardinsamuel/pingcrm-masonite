@@ -29,6 +29,10 @@ ROUTES = [
 
     # Contacts
     Get('/contacts', "ContactsController@index").name('contacts').middleware('auth'),
+    Get('/contacts/create', "ContactsController@create").name('contacts.create').middleware('auth'),
+    Get('/contacts/@contact/edit', "ContactsController@edit").name('contacts.edit').middleware('auth'),
+    Post('/contacts/', "ContactsController@store").name('contacts.store').middleware('auth'),
+    Delete('/contacts/@contact', "ContactsController@destroy").name('contacts.destroy').middleware('auth'),
 
     # Reports
     Get('/reports', "ReportsController@index").name('reports').middleware('auth'),
