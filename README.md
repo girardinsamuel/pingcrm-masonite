@@ -67,7 +67,7 @@ python craft migrate
 Run database seeder:
 
 ```sh
-python craft seed ?
+python craft seed:run
 ```
 
 Run the dev server (the output will give the address):
@@ -84,3 +84,21 @@ You're ready to go! Visit Ping CRM in your browser, and login with:
 ## Running tests
 
 There is no tests yet for this demo of Ping CRM.
+
+## Deploying in production (Heroku)
+
+```
+npm run prod
+git checkout production
+git merge master
+# main or master only can be deployed to prod in Heroku
+git push heroku production:master
+```
+
+```
+heroku run craft migrate
+```
+
+```
+heroku run craft seed:run
+```
