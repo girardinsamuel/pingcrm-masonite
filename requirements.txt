@@ -1,5 +1,6 @@
 git+https://github.com/MasoniteFramework/masonite#3.0 # use version without autoload
 masonite-logging>=1.0,<2.0
+masonite-orm
 masonite-validation>=3.0,<4.0
 masonite-inertia==0.3.0
 masonite-js-routes
