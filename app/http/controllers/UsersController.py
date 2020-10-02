@@ -23,20 +23,30 @@ class UsersController(Controller):
         self.request = request
 
     def index(self, view: InertiaResponse):
+        # TODO: not possible for now
         # users = Account.users_of_account(self.request.user().account.id)
-        users = self.request.user().account.users().order_by_name().filter(
-            self.request.only('search', 'role', 'trashed')
-        ).get()
+        # users = self.request.user().account.users().order_by_name().filter(
+        #     self.request.only('search', 'role', 'trashed')
+        # ).get()
+
+        # TODO: not possible for now
+        # users = self.request.user().account.users
+        # users.set_appends(['name'])
+        # TODO: not possible for now
+        # users = User.where("account_id", self.request.user().account.id).get()
+        # users.set_appends(['name'])
+        users = self.request.user().account.users
         return view.render('Users/Index', {
             'filters': self.request.all(internal_variables=False),
-            'users': users.transform(lambda user: {
-                'id': user.id,
-                'email': user.email,
-                'name': user.last_name + ' ' + user.first_name,
-                'owner': user.owner,
-                'photo': '#',
-                'deleted_at': user.deleted_at
-            }).serialize()
+            'users': users.serialize()
+            # 'users': users.transform(lambda user: {
+            #     'id': user.id,
+            #     'email': user.email,
+            #     'name': user.last_name + ' ' + user.first_name,
+            #     'owner': user.owner,
+            #     'photo': '#',
+            #     'deleted_at': user.deleted_at
+            # }).serialize()
         })
 
     def create(self, view: InertiaResponse):

@@ -47,8 +47,10 @@
       </inertia-link>
     </div>
     <div class="mb-4">
-      <inertia-link class="flex items-center py-3 group" href="#">
-        <!-- <inertia-link class="flex items-center py-3 group" :href="route('contacts')"> -->
+      <inertia-link
+        class="flex items-center py-3 group"
+        :href="route('contacts')"
+      >
         <icon
           name="users"
           class="w-4 h-4 mr-2"

@@ -16,7 +16,7 @@ class User(Model, SoftDeletesMixin):
         "owner",
         "account_id",
     ]
-    __append__ = ["role", "is_demo_user"]
+    __append__ = ["role", "name"]
     __auth__ = "email"
 
     @belongs_to('account_id', 'id')
@@ -27,6 +27,10 @@ class User(Model, SoftDeletesMixin):
     @property
     def role(self):
         return "owner" if self.owner else "user"
+
+    @property
+    def name(self):
+        return self.last_name + ' ' + self.first_name
 
     @property
     def is_demo_user(self):
