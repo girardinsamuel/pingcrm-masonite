@@ -88,8 +88,7 @@ export default {
   watch: {
     "$page.messages": {
       handler() {
-        debugger;
-        this.show = true;
+        this.show = this.$page.messages.error || this.$page.messages.success;
       },
       deep: true,
     },

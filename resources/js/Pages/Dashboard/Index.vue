@@ -12,8 +12,15 @@
     </p>
     <p class="mb-8 leading-normal">
       This demo is using
-      <a href="https://docs.masoniteproject.com/">MasoniteFramework</a> and
-      <a href="https://github.com/girardinsamuel/masonite-inertia"
+      <a
+        class="text-indigo-500 underline hover:text-orange-600"
+        href="https://docs.masoniteproject.com/"
+        >MasoniteFramework</a
+      >
+      and
+      <a
+        class="text-indigo-500 underline hover:text-orange-600"
+        href="https://github.com/girardinsamuel/masonite-inertia"
         >masonite-inertia</a
       >
       Inertia server-side adapter!
