@@ -21,13 +21,18 @@ class ContactsController(Controller):
         self.request = request
 
     def index(self, view: InertiaResponse):
+        # TODO: does not work yet
         # contacts = self.request.user().account.contacts().order_by_name().filter(
         #     self.request.only('search', 'role', 'trashed')
         # ).get()
+        # TODO: add pagination
         contacts = self.request.user().account.contacts
         return view.render('Contacts/Index', {
             'filters': self.request.all(internal_variables=False),
-            'users': contacts.serialize()
+            'contacts': {
+                "data": contacts.serialize(),
+                "links": []
+            }
         })
 
     def create(self, view: InertiaResponse):
