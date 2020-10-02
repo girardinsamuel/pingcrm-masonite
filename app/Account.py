@@ -21,7 +21,7 @@ class Account(Model):
 
         return Organization
 
-    @has_many
+    @has_many('id', 'account_id')
     def contacts(self):
         from app.Contact import Contact
 

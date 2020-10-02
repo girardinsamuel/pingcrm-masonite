@@ -82,12 +82,13 @@
 export default {
   data() {
     return {
-      show: true,
+      show: false,
     };
   },
   watch: {
     "$page.messages": {
       handler() {
+        debugger;
         this.show = true;
       },
       deep: true,

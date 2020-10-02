@@ -18,7 +18,7 @@ const tailwindcss = require("tailwindcss");
 
 mix
   .js("resources/js/app.js", "storage/public/js")
-  .postCss("resources/css/app.css", "storage/public/css/app.css")
+  .postCss("resources/css/app.css", "./storage/public/css")
   .options({
     postCss: [
       cssImport(),

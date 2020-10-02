@@ -1,5 +1,5 @@
 """Web Routes."""
-from masonite.routes import Get, Post, Delete
+from masonite.routes import Get, Post, Delete, Put
 # from masonite.auth import Auth
 
 ROUTES = [
@@ -22,20 +22,12 @@ ROUTES = [
     Get('/organizations', "OrganizationsController@index").name('organizations').middleware('auth'),
     Get('/organizations/create', "OrganizationsController@create").name('organizations.create').middleware('auth'),
     Get('/organizations/@organization/edit', "OrganizationsController@edit").name('organizations.edit').middleware('auth'),
+    Put('/organizations/@organization', "OrganizationsController@update").name('organizations.update').middleware('auth'),
+    Delete('/organizations/@organization', "OrganizationsController@destroy").name('organizations.destroy').middleware('auth'),
+    Post('/organizations/', "OrganizationsController@store").name('organizations.store').middleware('auth'),
 
-    # Get("/register", "auth.RegisterController@show").name("register"),
-    # Post("/register", "auth.RegisterController@store"),
-
-    # Get("/home", "auth.HomeController@show").name("home"),
-    # Get("/email/verify", "auth.ConfirmController@verify_show").name("verify"),
-    # Get("/email/verify/@id:signed", "auth.ConfirmController@confirm_email"),
-    # Get("/email/verify/@id:signed", "auth.ConfirmController@confirm_email"),
-    # Get("/password", "auth.PasswordController@forget").name("forgot.password"),
-    # Post("/password", "auth.PasswordController@send"),
-    # Get("/password/@token/reset", "auth.PasswordController@reset").name(
-    #     "password.reset"
-    # ),
-    # Post("/password/@token/reset", "auth.PasswordController@update"),
+    # Errors
+    Get('/500', "ErrorController@show").name('500')
 ]
 
 # ROUTES += Auth.routes()
