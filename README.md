@@ -5,11 +5,14 @@ A demo application to illustrate how Inertia.js works with:
 - Server-side adapter: [masonite-inertia](https://github.com/girardinsamuel/masonite-inertia.git) for [MasoniteFramework](https://github.com/MasoniteFramework/masonite)
 - Client-side adapter: [inertia.js]() for [Vue.js](https://github.com/vuejs/vue)
 
-[https://pingcrm-masonite.herokuapp.com/](https://pingcrm-masonite.herokuapp.com/)
+🎉 [https://pingcrm-masonite.herokuapp.com/](https://pingcrm-masonite.herokuapp.com/)
 
-> ![](https://raw.githubusercontent.com/inertiajs/pingcrm/master/screenshot.png)
+> ![](screenshot.png)
 
-Disclaimer : the demo is based on the [official Inertia.js demo](https://github.com/inertiajs/pingcrm.git) (for the Vue part)
+Disclaimer :
+
+- the demo is based on the [official Inertia.js demo](https://github.com/inertiajs/pingcrm.git) (for the Vue part)
+- there are still bugs because it's a WIP
 
 This demo is using [masonite-js-routes](https://github.com/girardinsamuel/masonite-js-routes) to publish routes client-side and `ziggy-js` which provides a very handy `route()` helper in Javascript !
 
