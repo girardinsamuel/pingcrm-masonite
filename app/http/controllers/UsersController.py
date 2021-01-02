@@ -97,13 +97,14 @@ class UsersController(Controller):
             # save file
             photo_path = upload.driver('disk').store(self.request.input('file_upload'), location='disk.profiles')
 
-        self.request.user().account.users().create(
+        User.create(
             first_name=self.request.input('first_name'),
             last_name=self.request.input('last_name'),
             email=self.request.input('email'),
             owner=self.request.input('owner'),
             password=self.request.input('password'),
-            photo_path=photo_path
+            photo_path=photo_path,
+            account_id=self.request.user().account.id
         )
 
         self.request.session.flash('success', 'User created.')
