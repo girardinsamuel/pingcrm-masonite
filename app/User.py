@@ -16,8 +16,11 @@ class User(Model, SoftDeletesMixin):
         "owner",
         "account_id",
     ]
-    __append__ = ["role", "name"]
+    __appends__ = ["role", "name"]
     __auth__ = "email"
+
+    def __str__(self):
+        return self.name
 
     @belongs_to('account_id', 'id')
     def account(self):

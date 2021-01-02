@@ -151,14 +151,16 @@ class UsersController(Controller):
         return self.request.back()
 
     def destroy(self, view: InertiaResponse):
-        user = User.find(self.request.param('user'))
+        self.request.session.flash('error', 'Deleting users in demo is not allowed yet.')
+        self.request.redirect_to("users", {"user": user_id})
+        # user_id = self.request.param('user')
+        # user = User.where("id", user_id)
+        # if user.first().is_demo_user:
+        #     self.request.session.flash('error', 'Deleting the demo user is not allowed.')
+        #     self.request.redirect_to("users", {"user": user_id})
 
-        if user.is_demo_user:
-            self.request.session.flash('error', 'Deleting the demo user is not allowed.')
-            self.request.redirect(f"/users/{user.id}")
+        # user.delete()
 
-        user.delete()
-
-        self.request.session.flash('success', 'User deleted.')
-        return self.request.redirect_to('users')
+        # self.request.session.flash('success', 'User deleted.')
+        # return self.request.redirect_to('users')
         # OR return self.request.back()

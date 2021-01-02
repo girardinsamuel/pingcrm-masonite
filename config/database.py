@@ -1,7 +1,8 @@
 """ Database Settings """
-from masonite import env
-from masoniteorm.query import QueryBuilder
+import os
+import logging
 from masoniteorm.connections import ConnectionResolver
+
 
 """
 |--------------------------------------------------------------------------
@@ -19,53 +20,54 @@ They can be named whatever you want.
 """
 
 DATABASES = {
-    "default": "postgres",
-    "mysql": {
-        "driver": "mysql",
-        "host": "localhost",
-        "user": "root",
-        "password": "",
-        "database": "orm",
-        "port": "3306",
-        "prefix": "",
-        "grammar": "mysql",
-        "options": {
-            "charset": "utf8mb4",
+    'default': 'postgres',
+    'mysql': {
+        'driver': 'mysql',
+        'host': os.getenv('MYSQL_DATABASE_HOST'),
+        'user': os.getenv('MYSQL_DATABASE_USER'),
+        'password': os.getenv('MYSQL_DATABASE_PASSWORD'),
+        'database': os.getenv('MYSQL_DATABASE_DATABASE'),
+        'port': os.getenv('MYSQL_DATABASE_PORT'),
+        'prefix': '',
+        'options': {
+            'charset': 'utf8mb4',
         },
+        'log_queries': True
     },
-    "postgres": {
-        "driver": "postgres",
-        "host": env("DB_HOST"),
-        "user": env("DB_USERNAME"),
-        "password": env("DB_PASSWORD"),
-        "database": env("DB_DATABASE"),
-        "port": "5432",
-        "prefix": "",
-        "grammar": "postgres",
+    'postgres': {
+        'driver': 'postgres',
+        'host': 'localhost',
+        'user': 'samuel',
+        'password': 'samuel',
+        'database': 'pingcrm_masonite',
+        'port': 5432,
+        'prefix': '',
+        'log_queries': True
     },
-    "sqlite": {"driver": "sqlite", "database": "orm.sqlite3", "prefix": ""},
+    'sqlite': {
+        'driver': 'sqlite',
+        'database': 'orm.sqlite3',
+        'prefix': '',
+        'log_queries': True
+    },
+    'mssql': {
+        'driver': 'mssql',
+        'host': os.getenv('MSSQL_DATABASE_HOST'),
+        'user': os.getenv('MSSQL_DATABASE_USER'),
+        'password': os.getenv('MSSQL_DATABASE_PASSWORD'),
+        'database': os.getenv('MSSQL_DATABASE_DATABASE'),
+        'port': os.getenv('MSSQL_DATABASE_PORT'),
+        'prefix': '',
+        'log_queries': True
+    },
 }
 
-ConnectionResolver.set_connection_details(DATABASES)
+db = ConnectionResolver().set_connection_details(DATABASES)
 
-DB = QueryBuilder(connection_details=DATABASES)
 
-# DATABASES = {
-#     'default': os.environ.get('DB_DRIVER'),
-#     'sqlite': {
-#         'driver': 'sqlite',
-#         'database': os.environ.get('DB_DATABASE')
-#     },
-#     'postgres': {
-#         'driver': 'postgres',
-#         'host': env('DB_HOST'),
-#         'database': env('DB_DATABASE'),
-#         'port': env('DB_PORT'),
-#         'user': env('DB_USERNAME'),
-#         'password': env('DB_PASSWORD'),
-#         'log_queries': env('DB_LOG'),
-#     },
-# }
+logger = logging.getLogger('masoniteorm.connection.queries')
+logger.setLevel(logging.DEBUG)
 
-# DB = DatabaseManager(DATABASES)
-# Model.set_connection_resolver(DB)
+handler = logging.StreamHandler()
+
+logger.addHandler(handler)

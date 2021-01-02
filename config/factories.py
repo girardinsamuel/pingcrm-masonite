@@ -23,6 +23,7 @@ def user_factory(faker):
         'photo_path': ''
     }
 
+
 def organization_factory(faker):
     return {
         'name': faker.company(),
@@ -34,6 +35,7 @@ def organization_factory(faker):
         'country': 'US',
         'postal_code': faker.postcode()
     }
+
 
 Factory.register(User, user_factory)
 Factory.register(Organization, organization_factory)

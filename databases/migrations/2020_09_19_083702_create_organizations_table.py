@@ -20,11 +20,10 @@ class CreateOrganizationsTable(Migration):
             table.string('country', 2).nullable()
             table.string('postal_code', 25).nullable()
             table.timestamps()
-            table.timestamp('deleted_at').nullable()
+            table.datetime('deleted_at').nullable()
 
     def down(self):
         """
         Revert the migrations.
         """
-        with self.schema.drop('organizations') as table:
-            pass
+        self.schema.drop('organizations')
