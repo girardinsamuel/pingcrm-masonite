@@ -32,7 +32,6 @@ class LoginController:
             validate.required(["email", "password"]),
             validate.email("email"),
         )
-        import pdb ; pdb.set_trace()
         if errors:
             return request.back().with_errors(errors).with_input()
 
