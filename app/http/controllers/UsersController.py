@@ -55,7 +55,6 @@ class UsersController(Controller):
     def edit(self, view: InertiaResponse):
         def lazy_prop():
             return "6"
-        import pdb ; pdb.set_trace()
         user = User.find(self.request.param("user"))
         return view.render('Users/Edit', {
             'user': {
@@ -113,7 +112,6 @@ class UsersController(Controller):
 
     def update(self, view: InertiaResponse, validate: Validator, upload: Upload):
         user = User.find(self.request.param("user"))
-        import pdb; pdb.set_trace()
         if user.is_demo_user:
             self.request.session.flash('error', 'Updating the demo user is not allowed.')
             return self.request.redirect(f"/users/{user.id}/edit") #.with_errors("Updating the demo user is not allowed.")
@@ -156,15 +154,12 @@ class UsersController(Controller):
 
     def destroy(self, view: InertiaResponse):
         self.request.session.flash('error', 'Deleting users in demo is not allowed yet.')
-        self.request.redirect_to("users", {"user": user_id})
+        return self.request.redirect_to("users")
         # user_id = self.request.param('user')
         # user = User.where("id", user_id)
         # if user.first().is_demo_user:
         #     self.request.session.flash('error', 'Deleting the demo user is not allowed.')
-        #     self.request.redirect_to("users", {"user": user_id})
-
+        #     self.request.redirect_to("users")
         # user.delete()
-
         # self.request.session.flash('success', 'User deleted.')
         # return self.request.redirect_to('users')
-        # OR return self.request.back()
