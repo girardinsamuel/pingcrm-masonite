@@ -1,8 +1,8 @@
 """ Database Settings """
 import os
 import logging
+from masonite.environment import LoadEnvironment, env
 from masoniteorm.connections import ConnectionResolver
-
 
 """
 |--------------------------------------------------------------------------
@@ -13,6 +13,7 @@ from masoniteorm.connections import ConnectionResolver
 |
 """
 
+LoadEnvironment()
 
 """
 The connections here don't determine the database but determine the "connection".
@@ -23,12 +24,13 @@ DATABASES = {
     'default': 'postgres',
     'mysql': {
         'driver': 'mysql',
-        'host': os.getenv('MYSQL_DATABASE_HOST'),
-        'user': os.getenv('MYSQL_DATABASE_USER'),
-        'password': os.getenv('MYSQL_DATABASE_PASSWORD'),
-        'database': os.getenv('MYSQL_DATABASE_DATABASE'),
-        'port': os.getenv('MYSQL_DATABASE_PORT'),
+        'host': env('MYSQL_DATABASE_HOST'),
+        'user': env('MYSQL_DATABASE_USER'),
+        'password': env('MYSQL_DATABASE_PASSWORD'),
+        'database': env('MYSQL_DATABASE_DATABASE'),
+        'port': env('MYSQL_DATABASE_PORT'),
         'prefix': '',
+        "grammar": "mysql",
         'options': {
             'charset': 'utf8mb4',
         },
@@ -52,17 +54,17 @@ DATABASES = {
     },
     'mssql': {
         'driver': 'mssql',
-        'host': os.getenv('MSSQL_DATABASE_HOST'),
-        'user': os.getenv('MSSQL_DATABASE_USER'),
-        'password': os.getenv('MSSQL_DATABASE_PASSWORD'),
-        'database': os.getenv('MSSQL_DATABASE_DATABASE'),
-        'port': os.getenv('MSSQL_DATABASE_PORT'),
+        'host': env('MSSQL_DATABASE_HOST'),
+        'user': env('MSSQL_DATABASE_USER'),
+        'password': env('MSSQL_DATABASE_PASSWORD'),
+        'database': env('MSSQL_DATABASE_DATABASE'),
+        'port': env('MSSQL_DATABASE_PORT'),
         'prefix': '',
         'log_queries': True
     },
 }
 
-db = ConnectionResolver().set_connection_details(DATABASES)
+DB = ConnectionResolver().set_connection_details(DATABASES)
 
 
 logger = logging.getLogger('masoniteorm.connection.queries')
