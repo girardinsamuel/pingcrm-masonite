@@ -2,6 +2,7 @@ git+https://github.com/MasoniteFramework/masonite@develop
 masonite-logging>=1.0,<2.0
 masonite-validation>=3.0,<4.0
 masonite-inertia==0.3.0
+git+https://github.com/girardinsamuel/masonite-inertia@master
 masonite-js-routes
 # pendulum==1.5.1
 
