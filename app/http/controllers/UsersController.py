@@ -55,6 +55,7 @@ class UsersController(Controller):
     def edit(self, view: InertiaResponse):
         def lazy_prop():
             return "6"
+        import pdb ; pdb.set_trace()
         user = User.find(self.request.param("user"))
         return view.render('Users/Edit', {
             'user': {
@@ -112,6 +113,7 @@ class UsersController(Controller):
 
     def update(self, view: InertiaResponse, validate: Validator, upload: Upload):
         user = User.find(self.request.param("user"))
+        import pdb; pdb.set_trace()
         if user.is_demo_user:
             self.request.session.flash('error', 'Updating the demo user is not allowed.')
             return self.request.redirect(f"/users/{user.id}/edit") #.with_errors("Updating the demo user is not allowed.")
@@ -129,7 +131,8 @@ class UsersController(Controller):
         )
 
         if errors:
-            return self.request.redirect(f"users/{user.id}").with_errors(errors).with_input()
+            # return self.request.redirect(f"users/{user.id}").with_errors(errors).with_input()
+            return self.request.redirect_to("users.edit", {"user": user.id}).with_errors(errors).with_input()
 
         # update user
         user.first_name = self.request.input('first_name')
