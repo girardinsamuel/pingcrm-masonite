@@ -65,7 +65,8 @@ class User(Model, SoftDeletesMixin):
             if filters["trashed"] == "with":
                 query.with_trashed()
             else:
-                # only trashed, ie User with a not null deleted date
-                query.where("deleted_at", None)
+                # only trashed users
+                # @issue: how to better check that 'deleted_at' is not null ? where_not_null not working
+                query.having("deleted_at")
 
         return query

@@ -17,7 +17,7 @@ class CreateUsersTable(Migration):
             table.string('remember_token').nullable()
             table.datetime('verified_at').nullable()
             table.timestamps()
-            table.datetime('deleted_at').nullable()
+            table.soft_deletes()
             table.index("account_id")
 
     def down(self):

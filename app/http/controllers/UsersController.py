@@ -21,30 +21,12 @@ class UsersController(Controller):
         self.request = request
 
     def index(self, view: InertiaResponse):
-        # TODO: not possible for now
-        # users = Account.users_of_account(self.request.user().account.id)
-        # users = self.request.user().account.users().order_by_name().filter(
-        #     self.request.only('search', 'role', 'trashed')
-        # ).get()
-
-        # TODO: not possible for now
-        # users = self.request.user().account.users
-        # users.set_appends(['name'])
-        # TODO: not possible for now
-        # users = User.where("account_id", self.request.user().account.id).get()
-        # users.set_appends(['name'])
-        users = self.request.user().account.users
+        users = User.where("account_id", self.request.user().account.id).order_by_name().filter(
+            self.request.only('search', 'role', 'trashed')
+        ).get()
         return view.render('Users/Index', {
             'filters': self.request.all(internal_variables=False),
             'users': users.serialize()
-            # 'users': users.transform(lambda user: {
-            #     'id': user.id,
-            #     'email': user.email,
-            #     'name': user.last_name + ' ' + user.first_name,
-            #     'owner': user.owner,
-            #     'photo': '#',
-            #     'deleted_at': user.deleted_at
-            # }).serialize()
         })
 
     def create(self, view: InertiaResponse):
@@ -82,11 +64,8 @@ class UsersController(Controller):
             )
         )
 
-
         if errors:
-            # return self.request.back().with_errors(errors).with_input()
-            # return view.render('Users/Create').with_errors(errors).with_input()
-            return self.request.redirect('users/create').with_errors(errors).with_input()
+            return self.request.redirect_to('users.create').with_errors(errors).with_input()
 
         photo_path = None
         if self.request.input('photo'):
@@ -104,7 +83,7 @@ class UsersController(Controller):
         )
 
         self.request.session.flash('success', 'User created.')
-        return self.request.redirect('/users')
+        return self.request.redirect_to('users')
 
     def update(self, view: InertiaResponse, validate: Validator, upload: Upload):
         user = User.find(self.request.param("user"))
@@ -124,7 +103,6 @@ class UsersController(Controller):
             )
         )
         if errors:
-            # return self.request.redirect(f"users/{user.id}").with_errors(errors).with_input()
             return self.request.redirect_to("users.edit", {"user": user.id}).with_errors(errors).with_input()
 
         # update user

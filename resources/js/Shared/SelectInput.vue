@@ -7,7 +7,7 @@
       v-model="selected"
       v-bind="$attrs"
       class="form-select"
-      :class="{ error: errors.length }"
+      :class="{ error: error }"
     >
       <slot />
     </select>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <label v-if="label" class="form-label">{{ label }}:</label>
-    <div class="p-0 form-input" :class="{ error: errors.length }">
+    <div class="p-0 form-input" :class="{ error: error}">
       <input ref="file" type="file" :accept="accept" class="hidden" @change="change">
       <div v-if="!value" class="p-2">
         <button type="button" class="px-4 py-1 text-xs font-medium text-white bg-gray-500 rounded-sm hover:bg-gray-700" @click="browse">
