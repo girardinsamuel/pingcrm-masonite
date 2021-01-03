@@ -66,7 +66,7 @@ class User(Model, SoftDeletesMixin):
                 query.with_trashed()
             else:
                 # only trashed users
-                # @issue: how to better check that 'deleted_at' is not null ? where_not_null not working
-                query.having("deleted_at")
+                # @issue: how to check that 'deleted_at' is not null ? where_not_null not working
+                query.where_not_null("deleted_at")
 
         return query
