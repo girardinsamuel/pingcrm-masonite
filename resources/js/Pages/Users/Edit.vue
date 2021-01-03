@@ -1,32 +1,32 @@
 <template>
   <div>
-    <div class="mb-8 flex justify-start max-w-3xl">
-      <h1 class="font-bold text-3xl">
+    <div class="flex justify-start max-w-3xl mb-8">
+      <h1 class="text-3xl font-bold">
         <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('users')">Users</inertia-link>
-        <span class="text-indigo-400 font-medium">/</span>
+        <span class="font-medium text-indigo-400">/</span>
         {{ form.first_name }} {{ form.last_name }}
       </h1>
-      <img v-if="user.photo" class="block w-8 h-8 rounded-full ml-4" :src="user.photo">
+      <img v-if="user.photo" class="block w-8 h-8 ml-4 rounded-full" :src="user.photo">
     </div>
     <trashed-message v-if="user.deleted_at" class="mb-6" @restore="restore">
       This user has been deleted.
     </trashed-message>
-    <div class="bg-white rounded shadow overflow-hidden max-w-3xl">
+    <div class="max-w-3xl overflow-hidden bg-white rounded shadow">
       <form @submit.prevent="submit">
-        <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
-          <text-input v-model="form.first_name" :error="errors.first_name" class="pr-6 pb-8 w-full lg:w-1/2" label="First name" />
-          <text-input v-model="form.last_name" :error="errors.last_name" class="pr-6 pb-8 w-full lg:w-1/2" label="Last name" />
-          <text-input v-model="form.email" :error="errors.email" class="pr-6 pb-8 w-full lg:w-1/2" label="Email" />
-          <text-input v-model="form.password" :error="errors.password" class="pr-6 pb-8 w-full lg:w-1/2" type="password" autocomplete="new-password" label="Password" />
-          <select-input v-model="form.owner" :error="errors.owner" class="pr-6 pb-8 w-full lg:w-1/2" label="Owner">
+        <div class="flex flex-wrap p-8 -mb-8 -mr-6">
+          <text-input v-model="form.first_name" :error="errors.first_name" class="w-full pb-8 pr-6 lg:w-1/2" label="First name" />
+          <text-input v-model="form.last_name" :error="errors.last_name" class="w-full pb-8 pr-6 lg:w-1/2" label="Last name" />
+          <text-input v-model="form.email" :error="errors.email" class="w-full pb-8 pr-6 lg:w-1/2" label="Email" />
+          <text-input v-model="form.password" :error="errors.password" class="w-full pb-8 pr-6 lg:w-1/2" type="password" autocomplete="new-password" label="Password" />
+          <select-input v-model="form.owner" :error="errors.owner" class="w-full pb-8 pr-6 lg:w-1/2" label="Owner">
             <option :value="true">Yes</option>
             <option :value="false">No</option>
           </select-input>
-          <file-input v-model="form.photo" :error="errors.photo" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
+          <file-input v-model="form.photo" :error="errors.photo" class="w-full pb-8 pr-6 lg:w-1/2" type="file" accept="image/*" label="Photo" />
         </div>
-        <div class="px-8 py-4 bg-gray-100 border-t border-gray-200 flex items-center">
+        <div class="flex items-center px-8 py-4 bg-gray-100 border-t border-gray-200">
           <button v-if="!user.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete User</button>
-          <loading-button :loading="sending" class="btn-indigo ml-auto" type="submit">Update User</loading-button>
+          <loading-button :loading="sending" class="ml-auto btn-indigo" type="submit">Update User</loading-button>
         </div>
       </form>
     </div>
@@ -81,7 +81,7 @@ export default {
       data.append('first_name', this.form.first_name || '')
       data.append('last_name', this.form.last_name || '')
       data.append('email', this.form.email || '')
-      data.append('password', this.form.password || '')
+      data.append('password', this.form.password || null)
       data.append('owner', this.form.owner ? '1' : '0')
       data.append('photo', this.form.photo || '')
       data.append('_method', 'put')

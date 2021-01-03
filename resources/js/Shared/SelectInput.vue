@@ -11,7 +11,7 @@
     >
       <slot />
     </select>
-    <div v-if="errors" class="form-error">{{ errors[0] }}</div>
+    <div v-if="error" class="form-error">{{ hasMultipleErrors ? error[0] : error }}</div>
   </div>
 </template>
 
@@ -27,9 +27,9 @@ export default {
     },
     value: [String, Number, Boolean],
     label: String,
-    errors: {
-      type: Array,
-      default: () => [],
+    error: {
+      type: [String, Array],
+      default: null
     },
   },
   data() {
@@ -41,6 +41,11 @@ export default {
     selected(selected) {
       this.$emit("input", selected);
     },
+  },
+  computed: {
+    hasMultipleErrors () {
+      return this.error instanceof Array
+    }
   },
   methods: {
     focus() {

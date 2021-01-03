@@ -1,14 +1,12 @@
 """A UsersController Module."""
 
 from masonite.request import Request
-from masonite.view import View
 from masonite.controllers import Controller
 from masonite.inertia import InertiaResponse
 from masonite.validation import Validator
 from masonite import Upload
 
 from app.User import User
-from app.Account import Account
 
 
 class UsersController(Controller):
@@ -53,8 +51,6 @@ class UsersController(Controller):
         return view.render('Users/Create')
 
     def edit(self, view: InertiaResponse):
-        def lazy_prop():
-            return "6"
         user = User.find(self.request.param("user"))
         return view.render('Users/Edit', {
             'user': {
@@ -63,10 +59,9 @@ class UsersController(Controller):
                 'last_name': user.last_name,
                 'email': user.email,
                 'owner': user.owner,
-                'photo': '#', # TODO: user.photoUrl(['w' => 60, 'h' => 60, 'fit' => 'crop']),
+                'photo': user.photo_path,
                 'deleted_at': user.deleted_at,
-            },
-            'other_one': lazy_prop
+            }
         })
 
     def store(self, view: InertiaResponse, validate: Validator, upload: Upload):
@@ -81,11 +76,12 @@ class UsersController(Controller):
             #     validate.image('photo')
             # ), TODO: fix the error, file validators do not work with FieldStorage for now ...
             validate.when(
-                validate.exists('password')
+                validate.isnt(validate.none('password'))
             ).then(
                 validate.strong('password', length=8, special=1)
             )
         )
+
 
         if errors:
             # return self.request.back().with_errors(errors).with_input()
@@ -113,21 +109,20 @@ class UsersController(Controller):
     def update(self, view: InertiaResponse, validate: Validator, upload: Upload):
         user = User.find(self.request.param("user"))
         if user.is_demo_user:
-            self.request.session.flash('error', 'Updating the demo user is not allowed.')
-            return self.request.redirect(f"/users/{user.id}/edit") #.with_errors("Updating the demo user is not allowed.")
+            return self.request.redirect_to("users.edit", {"user": user.id}).with_errors("Updating the demo user is not allowed.")
 
         errors = self.request.validate(
             validate.required(['first_name', 'last_name', 'email', 'owner']),
             validate.length(['first_name', 'last_name', 'email'], max=50),
+            # TODO: add unique validator for email
             validate.email('email'),
+            # TODO: add nullable validator to avoid doing this trick...
             validate.when(
-                validate.exists('password')
+                validate.isnt(validate.none('password'))
             ).then(
                 validate.strong('password', length=8, special=1)
             )
-            # TODO: add unique
         )
-
         if errors:
             # return self.request.redirect(f"users/{user.id}").with_errors(errors).with_input()
             return self.request.redirect_to("users.edit", {"user": user.id}).with_errors(errors).with_input()
@@ -138,9 +133,6 @@ class UsersController(Controller):
         user.email = self.request.input('email')
         user.owner = self.request.input('owner')
 
-        if self.request.input('password'):
-            pass
-
         photo_path = None
         if self.request.input('photo'):
             photo_path = upload.driver('disk').store(self.request.input('file_upload'),
@@ -150,16 +142,16 @@ class UsersController(Controller):
         user.save()
 
         self.request.session.flash('success', 'User updated.')
-        return self.request.back()
+        # @issue: this does not work => 404
+        # return self.request.back()
+        return self.request.redirect_to("users.edit", {"user": user.id})  # gone for now : .with_success("User updated.")
+
 
     def destroy(self, view: InertiaResponse):
-        self.request.session.flash('error', 'Deleting users in demo is not allowed yet.')
-        return self.request.redirect_to("users")
-        # user_id = self.request.param('user')
-        # user = User.where("id", user_id)
-        # if user.first().is_demo_user:
-        #     self.request.session.flash('error', 'Deleting the demo user is not allowed.')
-        #     self.request.redirect_to("users")
-        # user.delete()
-        # self.request.session.flash('success', 'User deleted.')
-        # return self.request.redirect_to('users')
+        user = User.find(self.request.param("user"))
+        if user.is_demo_user:
+            self.request.redirect_to("users").with_errors("Deleting the demo user is not allowed.")
+
+        user.delete()
+        self.request.session.flash('success', 'User deleted.')
+        return self.request.redirect_to('users')
