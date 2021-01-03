@@ -60,7 +60,7 @@ class OrganizationsController(Controller):
         errors = self.request.validate(
             validate.required(['name']),
             validate.length(['email', 'phone', 'city', 'region'], max=50),
-            validate.length(['name'], min=2),
+            validate.length(['name'], min=2, max=100),
             # validate.length('address', max=150),
             # validate.length('country', max=2),
             # validate.length('postal_code', max=25),
