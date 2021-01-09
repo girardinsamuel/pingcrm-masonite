@@ -22,9 +22,10 @@ class User(Model, SoftDeletesMixin):
     def __str__(self):
         return self.name
 
-    @belongs_to('account_id', 'id')
+    @belongs_to("account_id", "id")
     def account(self):
         from app.Account import Account
+
         return Account
 
     @property
@@ -33,7 +34,7 @@ class User(Model, SoftDeletesMixin):
 
     @property
     def name(self):
-        return self.last_name + ' ' + self.first_name
+        return self.last_name + " " + self.first_name
 
     @property
     def is_demo_user(self):
@@ -65,8 +66,6 @@ class User(Model, SoftDeletesMixin):
             if filters["trashed"] == "with":
                 query.with_trashed()
             else:
-                # only trashed users
-                # @issue: how to check that 'deleted_at' is not null ? where_not_null not working
-                query.where_not_null("deleted_at")
+                query.only_trashed()
 
         return query

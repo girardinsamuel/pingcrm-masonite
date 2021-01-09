@@ -1,8 +1,8 @@
 git+https://github.com/MasoniteFramework/masonite@develop
 masonite-logging>=1.0,<2.0
-masonite-validation>=3.0,<4.0
+git+https://github.com/girardinsamuel/validation.git@fix/50
 masonite-inertia==3.1.1
-git+https://github.com/MasoniteFramework/orm
+git+https://github.com/MasoniteFramework/orm@1.0
 masonite-js-routes
 # pendulum==1.5.1
 
