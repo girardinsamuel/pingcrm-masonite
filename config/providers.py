@@ -57,7 +57,6 @@ PROVIDERS = [
     ValidationProvider,
     # Third Party Providers
     LoggingProvider,
-    ValidationProvider,
     JSRoutesProvider,
     InertiaProvider,
     # Application Providers

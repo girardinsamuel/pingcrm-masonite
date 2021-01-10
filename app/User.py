@@ -16,7 +16,7 @@ class User(Model, SoftDeletesMixin):
         "owner",
         "account_id",
     ]
-    __appends__ = ["role", "name"]
+    __appends__ = ["role", "name", "photo"]
     __auth__ = "email"
 
     def __str__(self):
@@ -35,6 +35,10 @@ class User(Model, SoftDeletesMixin):
     @property
     def name(self):
         return self.last_name + " " + self.first_name
+
+    @property
+    def photo(self):
+        return f"/static/users/{self.photo_path}" if self.photo_path else ""
 
     @property
     def is_demo_user(self):
