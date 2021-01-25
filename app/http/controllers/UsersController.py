@@ -39,7 +39,7 @@ class UsersController(Controller):
         return view.render("Users/Create")
 
     def edit(self, view: InertiaResponse):
-        user = User.find(self.request.param("user"))
+        user = User.with_trashed().find(self.request.param("user"))
         return view.render(
             "Users/Edit",
             {

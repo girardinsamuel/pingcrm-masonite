@@ -1,7 +1,6 @@
 """A OrganizationsController Module."""
 
 from masonite.request import Request
-from masonite.view import View
 from masonite.controllers import Controller
 from masonite.validation import Validator
 from masonite.inertia import InertiaResponse
@@ -28,14 +27,7 @@ class OrganizationsController(Controller):
             "Organizations/Index",
             {
                 "filters": self.request.all(internal_variables=False),
-                "organizations": {"data": organizations.serialize(), "links": []}
-                # 'organizations': organizations.transform(lambda org: {
-                #     'id': org.id,
-                #     'name': org.name,
-                #     'phone': org.phone,
-                #     'city': org.city,
-                #     'deleted_at': org.deleted_at
-                # }).serialize()
+                "organizations": {"data": organizations.serialize(), "links": []},
             },
         )
 
@@ -76,7 +68,6 @@ class OrganizationsController(Controller):
         )
         if errors:
             # return self.request.back().with_errors(errors).with_input()
-            # return view.render('Organizations/Create').with_errors(errors).with_input()
             return (
                 self.request.redirect_to("organizations.create")
                 .with_errors(errors)
@@ -84,19 +75,21 @@ class OrganizationsController(Controller):
             )
 
         Organization.create(
-            name=self.request.input("name"),
-            email=self.request.input("email"),
-            phone=self.request.input("phone"),
-            address=self.request.input("address"),
-            city=self.request.input("city"),
-            region=self.request.input("region"),
-            postal_code=self.request.input("postal_code"),
-            country=self.request.input("country"),
+            **self.request.only(
+                "name",
+                "email",
+                "phone",
+                "address",
+                "city",
+                "region",
+                "postal_code",
+                "country",
+            ),
             account_id=self.request.user().account.id,
         )
-
-        self.request.session.flash("success", "Organization created.")
-        return self.request.redirect_to("organizations")
+        return self.request.redirect_to("organizations").with_success(
+            "Organization created."
+        )
 
     def update(self, view: InertiaResponse, validate: Validator):
         org = Organization.find(self.request.param("organization"))
@@ -116,22 +109,25 @@ class OrganizationsController(Controller):
                 .with_input()
             )
 
-        # TODO: how to update more quickly/cleanly ?
-        org.name = self.request.input("name")
-        org.email = self.request.input("email")
-        org.phone = self.request.input("phone")
-        org.address = self.request.input("address")
-        org.city = self.request.input("city")
-        org.region = self.request.input("region")
-        org.postal_code = self.request.input("postal_code")
-        org.country = self.request.input("country")
-        org.save()
-
-        self.request.session.flash("success", "Organization updated.")
-        return self.request.redirect_to("organizations")
+        org.update(
+            self.request.only(
+                "name",
+                "email",
+                "phone",
+                "address",
+                "city",
+                "region",
+                "postal_code",
+                "country",
+            )
+        )
+        return self.request.redirect_to("organizations").with_success(
+            "Organization updated."
+        )
 
     def destroy(self, view: InertiaResponse):
         org = Organization.find(self.request.param("organization"))
         org.delete()
-        self.request.session.flash("success", "Organization deleted.")
-        return self.request.redirect_to("organizations")
+        return self.request.redirect_to("organizations").with_success(
+            "Organization deleted."
+        )

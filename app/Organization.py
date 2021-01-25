@@ -7,6 +7,8 @@ from masoniteorm.scopes import scope
 class Organization(Model):
     """Organization Model."""
 
+    __visible__ = ["id", "name", "phone", "city", "deleted_at"]
+
     @has_many("id", "organization_id")
     def contacts(self):
         from app.Contact import Contact
