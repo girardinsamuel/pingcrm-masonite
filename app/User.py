@@ -18,6 +18,7 @@ class User(Model, SoftDeletesMixin):
     ]
     __appends__ = ["role", "name", "photo"]
     __auth__ = "email"
+    __visible__ = ["id", "role", "owner", "email", "name", "photo", "deleted_at"]
 
     def __str__(self):
         return self.name
@@ -50,6 +51,9 @@ class User(Model, SoftDeletesMixin):
 
     @scope
     def where_role(self, query, role):
+        import pdb
+
+        pdb.set_trace()
         if role == "owner":
             return query.where("owner", True)
         else:

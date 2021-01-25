@@ -14,18 +14,19 @@ from config.factories import Factory
 
 
 class UserTableSeeder(Seeder):
-
     def run(self):
         """
         Run the database seeds.
         """
         account = Account.create(name="Acme Corporation")
         # account = Account.first()
-        user = Factory(User, 1).create({
-            "account_id": account.id,
-            "owner": True,
-            "email": "johndoe@example.com",
-            "first_name": "John",
-            "last_name": "Doe"
-        })
+        user = Factory(User, 1).create(
+            {
+                "account_id": account.id,
+                "owner": True,
+                "email": "johndoe@example.com",
+                "first_name": "John",
+                "last_name": "Doe",
+            }
+        )
         users = Factory(User, 5).create({"account_id": account.id})

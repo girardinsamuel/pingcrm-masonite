@@ -47,10 +47,10 @@
           />
         </svg>
         <div
-          v-if="$page.messages.error"
+          v-if="$page.messages.error || $page.errors"
           class="py-4 text-sm font-medium text-white"
         >
-          {{ $page.messages.error }}
+          {{ $page.messages.error || $page.errors }}
         </div>
         <div v-else class="py-4 text-sm font-medium text-white">
           <span v-if="Object.keys($page.errors).length === 1"
@@ -89,6 +89,12 @@ export default {
     "$page.messages": {
       handler() {
         this.show = this.$page.messages.error || this.$page.messages.success;
+      },
+      deep: true,
+    },
+    "$page.errors": {
+      handler() {
+        this.show = this.$page.errors
       },
       deep: true,
     },

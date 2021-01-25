@@ -64,6 +64,10 @@ class UsersController(Controller):
             validate.when(validate.isnt(validate.none("photo"))).then(
                 validate.image("photo"),
             ),
+            # 3 ISSUES:
+            # - do we need to override driver to support uploading pdfs ?
+            # - if not valid, request.input() put the file in the request, and the request is too big
+            # validate.image("photo"),
             validate.when(validate.isnt(validate.none("password"))).then(
                 validate.strong("password", length=8, special=1),
             ),
@@ -84,17 +88,14 @@ class UsersController(Controller):
             )
 
         User.create(
-            first_name=self.request.input("first_name"),
-            last_name=self.request.input("last_name"),
-            email=self.request.input("email"),
-            owner=self.request.input("owner"),
-            password=self.request.input("password"),
+            **self.request.only(
+                "first_name", "last_name", "email", "owner", "password"
+            ),
             photo_path=photo_path,
             account_id=self.request.user().account.id,
         )
 
-        self.request.session.flash("success", "User created.")
-        return self.request.redirect_to("users")
+        return self.request.redirect_to("users").with_success("User created.")
 
     def update(self, view: InertiaResponse, validate: Validator, upload: Upload):
         user = User.find(self.request.param("user"))
@@ -106,7 +107,7 @@ class UsersController(Controller):
         errors = self.request.validate(
             validate.required(["first_name", "last_name", "email", "owner"]),
             validate.length(["first_name", "last_name", "email"], max=50),
-            # TODO: add unique validator for email
+            # TODO: add unique validator for email (waiting for PR to be merged)
             validate.email("email"),
             # TODO: add nullable validator to avoid doing this trick...
             validate.when(validate.isnt(validate.none("password"))).then(
@@ -123,11 +124,6 @@ class UsersController(Controller):
                 .with_input()
             )
 
-        # update user
-        user.first_name = self.request.input("first_name")
-        user.last_name = self.request.input("last_name")
-        user.email = self.request.input("email")
-        user.owner = self.request.input("owner")
         photo_path = None
         if self.request.input("photo") != "":
             photo_path = upload.driver("disk").store(
@@ -135,19 +131,22 @@ class UsersController(Controller):
             )
             user.photo_path = photo_path
 
-        user.save()
-
-        self.request.session.flash("success", "User updated.")
-        # @issue: this does not work => 404
-        # return self.request.back()
-        return self.request.redirect_to(
-            "users.edit", {"user": user.id}
-        )  # @issue: gone for now (in 2.X branch) .with_success("User updated.")
+        user.update(
+            {
+                **self.request.only(
+                    "first_name", "last_name", "email", "owner", "password"
+                ),
+                "photo_path": photo_path,
+            },
+        )
+        return self.request.redirect_to("users.edit", {"user": user.id}).with_success(
+            "User updated."
+        )
 
     def destroy(self, view: InertiaResponse):
         user = User.find(self.request.param("user"))
         if user.is_demo_user:
-            self.request.redirect_to("users").with_errors(
+            return self.request.redirect_to("users").with_errors(
                 "Deleting the demo user is not allowed."
             )
 
