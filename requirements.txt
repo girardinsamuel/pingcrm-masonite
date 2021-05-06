@@ -1,6 +1,6 @@
 masonite>=3.0<4.0
 masonite-logging>=1.0,<2.0
-git+https://github.com/girardinsamuel/validation.git@fix/50
+masonite-validation
 masonite-inertia>=3.0
 masonite-js-routes
 
