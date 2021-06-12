@@ -1,9 +1,9 @@
-masonite>=3.0<4.0
-masonite-logging>=1.0,<2.0
-masonite-validation
-masonite-inertia>=3.0
-masonite-js-routes
+git+https://github.com/MasoniteFramework/masonite4.git@feature/104
+git+https://github.com/girardinsamuel/orm@update/masonite-4
+git+https://github.com/girardinsamuel/masonite-inertia@4.X
+git+https://github.com/girardinsamuel/masonite-js-routes@4.X
+cryptography
 
-# deployment
-gunicorn==20.0.4
-psycopg2-binary==2.8.6
+# Heroku deployment only
+# gunicorn==20.0.4
+# psycopg2-binary==2.8.6

@@ -1,10 +1,10 @@
-import Vue from "vue";
-import VueMeta from "vue-meta";
-import PortalVue from "portal-vue";
-import { InertiaApp } from "@inertiajs/inertia-vue";
-import route from "ziggy-js";
-import { Ziggy } from "./routes";
-import { InertiaProgress } from "@inertiajs/progress/src";
+import Vue from "vue"
+import VueMeta from "vue-meta"
+import PortalVue from "portal-vue"
+import { InertiaApp } from "@inertiajs/inertia-vue"
+import route from "ziggy-js"
+import { Ziggy } from "./routes"
+import { InertiaProgress } from "@inertiajs/progress/src"
 
 Vue.config.productionTip = false;
 

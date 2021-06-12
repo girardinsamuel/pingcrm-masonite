@@ -1,7 +1,7 @@
-from masonite.testing import TestCase
+from masonite.tests import TestCase
 
 
 class TestUnit(TestCase):
 
     def test_example_assertion(self):
-        self.assertTrue(True)
+        self.get("/login").assertInertiaComponent("Auth/Login")

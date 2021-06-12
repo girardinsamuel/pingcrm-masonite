@@ -1,10 +1,12 @@
 """User Model."""
+from masonite.authentication import Authenticates
+
 from masoniteorm.relationships import belongs_to
 from masoniteorm.scopes import scope, SoftDeletesMixin
 from masoniteorm.models import Model
 
 
-class User(Model, SoftDeletesMixin):
+class User(Model, SoftDeletesMixin, Authenticates):
     """User Model."""
 
     __fillable__ = [
@@ -51,9 +53,6 @@ class User(Model, SoftDeletesMixin):
 
     @scope
     def where_role(self, query, role):
-        import pdb
-
-        pdb.set_trace()
         if role == "owner":
             return query.where("owner", True)
         else:

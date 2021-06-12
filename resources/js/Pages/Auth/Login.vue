@@ -11,7 +11,6 @@
           <div class="w-24 mx-auto mt-6 border-b-2" />
           <text-input
             v-model="form.email"
-            :error="errors.email"
             class="mt-10"
             label="Email"
             type="email"
@@ -30,19 +29,17 @@
               v-model="form.remember"
               class="mr-1"
               type="checkbox"
-            />
+            >
             <span class="text-sm">Remember Me</span>
           </label>
         </div>
         <div
           class="flex items-center justify-between px-10 py-4 bg-gray-100 border-t border-gray-200"
         >
-          <a class="hover:underline" tabindex="-1" href="#reset-password"
-            >Forget password?</a
-          >
-          <loading-button :loading="sending" class="btn-indigo" type="submit"
-            >Login</loading-button
-          >
+          <a class="hover:underline" tabindex="-1" href="#reset-password">Forget password?</a>
+          <loading-button :loading="sending" class="btn-indigo" type="submit">
+            Login
+          </loading-button>
         </div>
       </form>
     </div>
@@ -50,41 +47,44 @@
 </template>
 
 <script>
-import LoadingButton from "@/Shared/LoadingButton";
-import Logo from "@/Shared/Logo";
-import TextInput from "@/Shared/TextInput";
+import LoadingButton from '@/Shared/LoadingButton'
+import Logo from '@/Shared/Logo'
+import TextInput from '@/Shared/TextInput'
 
 export default {
-  metaInfo: { title: "Login" },
+  metaInfo: { title: 'Login' },
   components: {
     LoadingButton,
     Logo,
     TextInput,
   },
   props: {
-    errors: Object,
+    errors: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
       sending: false,
       form: {
-        email: "johndoe@example.com",
-        password: "secret",
+        email: 'johndoe@example.com',
+        password: 'secret',
         remember: null,
       },
-    };
+    }
   },
   methods: {
     submit() {
-      this.sending = true;
+      this.sending = true
       this.$inertia
-        .post(this.route("login.attempt"), {
+        .post(this.route('login.attempt'), {
           email: this.form.email,
           password: this.form.password,
           remember: this.form.remember,
         })
-        .then(() => (this.sending = false));
+        .then(() => (this.sending = false))
     },
   },
-};
+}
 </script>

@@ -89,7 +89,7 @@ export default {
       this.$inertia.post(this.route('users.update', this.user.id), data)
         .then(() => {
           this.sending = false
-          if (Object.keys(this.$page.errors).length === 0) {
+          if (Object.keys(this.$page.props.errors).length === 0) {
             this.form.photo = null
             this.form.password = null
           }
