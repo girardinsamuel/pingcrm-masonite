@@ -15,9 +15,9 @@ class CreateUsersTable(Migration):
             table.boolean('owner').default(False)
             table.string('photo_path', 100).nullable()
             table.string('remember_token').nullable()
-            table.timestamp('verified_at').nullable()
+            table.datetime('verified_at').nullable()
             table.timestamps()
-            table.timestamp('deleted_at').nullable()
+            table.soft_deletes()
             table.index("account_id")
 
     def down(self):

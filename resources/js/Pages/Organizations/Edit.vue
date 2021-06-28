@@ -21,43 +21,43 @@
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <text-input
             v-model="form.name"
-            :errors="errors.name"
+            :error="errors.name"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Name"
           />
           <text-input
             v-model="form.email"
-            :errors="errors.email"
+            :error="errors.email"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Email"
           />
           <text-input
             v-model="form.phone"
-            :errors="errors.phone"
+            :error="errors.phone"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Phone"
           />
           <text-input
             v-model="form.address"
-            :errors="errors.address"
+            :error="errors.address"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Address"
           />
           <text-input
             v-model="form.city"
-            :errors="errors.city"
+            :error="errors.city"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="City"
           />
           <text-input
             v-model="form.region"
-            :errors="errors.region"
+            :error="errors.region"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Province/State"
           />
           <select-input
             v-model="form.country"
-            :errors="errors.country"
+            :error="errors.country"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Country"
           >
@@ -67,7 +67,7 @@
           </select-input>
           <text-input
             v-model="form.postal_code"
-            :errors="errors.postal_code"
+            :error="errors.postal_code"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Postal code"
           />

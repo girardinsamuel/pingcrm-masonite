@@ -1,10 +1,12 @@
 """User Model."""
+from masonite.authentication import Authenticates
+
 from masoniteorm.relationships import belongs_to
 from masoniteorm.scopes import scope, SoftDeletesMixin
 from masoniteorm.models import Model
 
 
-class User(Model, SoftDeletesMixin):
+class User(Model, SoftDeletesMixin, Authenticates):
     """User Model."""
 
     __fillable__ = [
@@ -16,12 +18,17 @@ class User(Model, SoftDeletesMixin):
         "owner",
         "account_id",
     ]
-    __append__ = ["role", "name"]
+    __appends__ = ["role", "name", "photo"]
     __auth__ = "email"
+    __visible__ = ["id", "role", "owner", "email", "name", "photo", "deleted_at"]
 
-    @belongs_to('account_id', 'id')
+    def __str__(self):
+        return self.name
+
+    @belongs_to("account_id", "id")
     def account(self):
         from app.Account import Account
+
         return Account
 
     @property
@@ -30,7 +37,11 @@ class User(Model, SoftDeletesMixin):
 
     @property
     def name(self):
-        return self.last_name + ' ' + self.first_name
+        return self.last_name + " " + self.first_name
+
+    @property
+    def photo(self):
+        return f"/static/users/{self.photo_path}" if self.photo_path else ""
 
     @property
     def is_demo_user(self):
@@ -62,7 +73,6 @@ class User(Model, SoftDeletesMixin):
             if filters["trashed"] == "with":
                 query.with_trashed()
             else:
-                # only trashed, ie User with a not null deleted date
-                query.where("deleted_at", None)
+                query.only_trashed()
 
         return query

@@ -6,12 +6,12 @@
       ref="input"
       v-bind="$attrs"
       class="form-input"
-      :class="{ error: errors.length }"
+      :class="{ error: error }"
       :type="type"
       :value="value"
       @input="$emit('input', $event.target.value)"
     />
-    <div v-if="errors.length" class="form-error">{{ errors[0] }}</div>
+    <div v-if="error" class="form-error">{{ hasMultipleErrors ? error[0] : error }}</div>
   </div>
 </template>
 
@@ -31,10 +31,15 @@ export default {
     },
     value: String,
     label: String,
-    errors: {
-      type: Array,
-      default: () => [],
+    error: {
+      type: [String, Array],
+      default: null
     },
+  },
+  computed: {
+    hasMultipleErrors () {
+      return this.error instanceof Array
+    }
   },
   methods: {
     focus() {

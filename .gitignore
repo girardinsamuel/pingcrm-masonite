@@ -9,6 +9,7 @@ node_modules
 package-lock.json
 !.env.testing
 *.log
+.python-version
 
 # vue apps
 storage/compiled

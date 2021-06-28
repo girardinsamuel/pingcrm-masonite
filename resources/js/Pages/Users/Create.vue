@@ -13,25 +13,25 @@
         <div class="flex flex-wrap p-8 -mb-8 -mr-6">
           <text-input
             v-model="form.first_name"
-            :errors="errors.first_name"
+            :error="errors.first_name"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="First name"
           />
           <text-input
             v-model="form.last_name"
-            :errors="errors.last_name"
+            :error="errors.last_name"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Last name"
           />
           <text-input
             v-model="form.email"
-            :errors="errors.email"
+            :error="errors.email"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Email"
           />
           <text-input
             v-model="form.password"
-            :errors="errors.password"
+            :error="errors.password"
             class="w-full pb-8 pr-6 lg:w-1/2"
             type="password"
             autocomplete="new-password"
@@ -39,7 +39,7 @@
           />
           <select-input
             v-model="form.owner"
-            :errors="errors.owner"
+            :error="errors.owner"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Owner"
           >
@@ -48,7 +48,7 @@
           </select-input>
           <file-input
             v-model="form.photo"
-            :errors="errors.photo"
+            :error="errors.photo"
             class="w-full pb-8 pr-6 lg:w-1/2"
             type="file"
             accept="image/*"

@@ -32,7 +32,7 @@
     </div>
     <div
       v-if="
-        ($page.messages.error || Object.keys($page.errors).length > 0) && show
+        ($page.messages.error || Object.keys($page.props.errors).length > 0) && show
       "
       class="flex items-center justify-between max-w-3xl mb-8 bg-red-500 rounded"
     >
@@ -47,17 +47,17 @@
           />
         </svg>
         <div
-          v-if="$page.messages.error"
+          v-if="$page.messages.error || $page.props.errors"
           class="py-4 text-sm font-medium text-white"
         >
-          {{ $page.messages.error }}
+          {{ $page.messages.error || $page.props.errors }}
         </div>
         <div v-else class="py-4 text-sm font-medium text-white">
-          <span v-if="Object.keys($page.errors).length === 1"
+          <span v-if="Object.keys($page.props.errors).length === 1"
             >There is one form error.</span
           >
           <span v-else
-            >There are {{ Object.keys($page.errors).length }} form errors.</span
+            >There are {{ Object.keys($page.props.errors).length }} form errors.</span
           >
         </div>
       </div>
@@ -89,6 +89,12 @@ export default {
     "$page.messages": {
       handler() {
         this.show = this.$page.messages.error || this.$page.messages.success;
+      },
+      deep: true,
+    },
+    "$page.props.errors": {
+      handler() {
+        this.show = this.$page.props.errors
       },
       deep: true,
     },

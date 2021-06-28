@@ -1,9 +1,7 @@
-const cssImport = require("postcss-import");
-const cssNesting = require("postcss-nesting");
-const mix = require("laravel-mix");
-const path = require("path");
-const purgecss = require("@fullhuman/postcss-purgecss");
-const tailwindcss = require("tailwindcss");
+const cssImport = require("postcss-import")
+const cssNesting = require("postcss-nesting")
+const mix = require("laravel-mix")
+const path = require("path")
 
 /*
  |--------------------------------------------------------------------------
@@ -18,27 +16,13 @@ const tailwindcss = require("tailwindcss");
 
 mix
   .js("resources/js/app.js", "storage/public/js")
-  .postCss("resources/css/app.css", "./storage/public/css")
-  .options({
-    postCss: [
-      cssImport(),
-      cssNesting(),
-      tailwindcss("tailwind.config.js"),
-      ...(mix.inProduction()
-        ? [
-            purgecss({
-              content: [
-                "./resources/templates/**/*.html",
-                "./resources/js/**/*.vue",
-              ],
-              defaultExtractor: (content) =>
-                content.match(/[\w-/:.]+(?<!:)/g) || [],
-              whitelistPatternsChildren: [/nprogress/],
-            }),
-          ]
-        : []),
-    ],
-  })
+  .vue()
+  .postCss("resources/css/app.css", "storage/public/css", [
+    // prettier-ignore
+    cssImport(),
+    cssNesting(),
+    require('tailwindcss'),
+  ])
   .webpackConfig({
     output: { chunkFilename: "js/[name].js?id=[chunkhash]" },
     resolve: {
@@ -49,4 +33,4 @@ mix
     },
   })
   .version()
-  .sourceMaps();
+  .sourceMaps()
